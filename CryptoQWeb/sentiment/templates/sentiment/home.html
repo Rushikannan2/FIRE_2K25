@@ -1,0 +1,451 @@
+{% extends 'sentiment/base.html' %}
+
+{% block title %}CryptoQ Sentiment Analyzer - Home{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-lg border-0 card-hover">
+            <div class="card-header gradient-bg text-white">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-brain me-2"></i>Sentiment Analysis
+                </h2>
+                <p class="mb-0 mt-2">Enter any text to analyze its sentiment using our 3-level hierarchical AI model</p>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" action="{% url 'sentiment:analyze_form' %}" id="sentimentForm">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="textInput" class="form-label fw-bold">
+                            <i class="fas fa-edit me-2"></i>Text to Analyze
+                        </label>
+                        <textarea 
+                            class="form-control" 
+                            id="textInput" 
+                            name="text" 
+                            rows="6" 
+                            placeholder="Enter any text here (social media post, comment, question, etc.)..."
+                            required
+                        ></textarea>
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>
+                            The AI will analyze this text using a 3-level hierarchical approach
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg" id="analyzeBtn">
+                            <i class="fas fa-search me-2"></i>Analyze Sentiment
+                        </button>
+                    </div>
+                </form>
+
+                {% if analysis_result %}
+                <div class="mt-5">
+                    <hr>
+                    <h4 class="text-center mb-4">
+                        <i class="fas fa-chart-line me-2"></i>Analysis Results
+                    </h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-success">
+                                <div class="card-header bg-success text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-flag me-2"></i>Final Classification
+                                    </h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <span class="badge bg-success sentiment-badge fs-4">
+                                        {{ analysis_result.final_classification }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-chart-pie me-2"></i>Analysis Overview
+                                    </h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <canvas id="overviewChart" width="200" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hierarchical Analysis with Charts -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card border-primary level-card">
+                                <div class="card-header bg-primary text-white">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-layer-group me-2"></i>Level 1
+                                    </h6>
+                                    <small>NOISE, OBJECTIVE, SUBJECTIVE</small>
+                                </div>
+                                <div class="card-body text-center">
+                                    {% if analysis_result.level1_prediction %}
+                                        <div class="chart-label">
+                                            <span class="badge bg-primary fs-6">{{ analysis_result.level1_prediction }}</span>
+                                        </div>
+                                        <div class="chart-container">
+                                            <canvas id="homeLevel1Chart"></canvas>
+                                        </div>
+                                        {% if analysis_result.confidence_scores.level1 %}
+                                            <div class="confidence-display">
+                                                <span class="badge {% if analysis_result.confidence_scores.level1 >= 0.8 %}bg-success{% elif analysis_result.confidence_scores.level1 >= 0.6 %}bg-warning{% else %}bg-danger{% endif %}">
+                                                    {{ analysis_result.confidence_scores.level1|floatformat:1 }}%
+                                                </span>
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <div class="d-flex align-items-center justify-content-center h-100">
+                                            <span class="text-muted">Not available</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <div class="card border-warning level-card">
+                                <div class="card-header bg-warning text-dark">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-layer-group me-2"></i>Level 2
+                                    </h6>
+                                    <small>NEUTRAL, NEGATIVE, POSITIVE</small>
+                                </div>
+                                <div class="card-body text-center">
+                                    {% if analysis_result.level2_prediction %}
+                                        <div class="chart-label">
+                                            <span class="badge bg-warning fs-6">{{ analysis_result.level2_prediction }}</span>
+                                        </div>
+                                        <div class="chart-container">
+                                            <canvas id="homeLevel2Chart"></canvas>
+                                        </div>
+                                        {% if analysis_result.confidence_scores.level2 %}
+                                            <div class="confidence-display">
+                                                <span class="badge {% if analysis_result.confidence_scores.level2 >= 0.8 %}bg-success{% elif analysis_result.confidence_scores.level2 >= 0.6 %}bg-warning{% else %}bg-danger{% endif %}">
+                                                    {{ analysis_result.confidence_scores.level2|floatformat:1 }}%
+                                                </span>
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <div class="d-flex align-items-center justify-content-center h-100">
+                                            <span class="text-muted">Not applicable</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <div class="card border-secondary level-card">
+                                <div class="card-header bg-secondary text-white">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-layer-group me-2"></i>Level 3
+                                    </h6>
+                                    <small>NEUTRAL_SENTIMENT, QUESTION, ADVERTISEMENT, MISCELLANEOUS</small>
+                                </div>
+                                <div class="card-body text-center">
+                                    {% if analysis_result.level3_prediction %}
+                                        <div class="chart-label">
+                                            <span class="badge bg-secondary fs-6">{{ analysis_result.level3_prediction }}</span>
+                                        </div>
+                                        <div class="chart-container">
+                                            <canvas id="homeLevel3Chart"></canvas>
+                                        </div>
+                                        {% if analysis_result.confidence_scores.level3 %}
+                                            <div class="confidence-display">
+                                                <span class="badge {% if analysis_result.confidence_scores.level3 >= 0.8 %}bg-success{% elif analysis_result.confidence_scores.level3 >= 0.6 %}bg-warning{% else %}bg-danger{% endif %}">
+                                                    {{ analysis_result.confidence_scores.level3|floatformat:1 }}%
+                                                </span>
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <div class="d-flex align-items-center justify-content-center h-100">
+                                            <span class="text-muted">Not applicable</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Confidence Scores -->
+                    {% if analysis_result.confidence_scores %}
+                    <div class="card border-warning mt-3">
+                        <div class="card-header bg-warning text-dark">
+                            <h5 class="mb-0">
+                                <i class="fas fa-chart-bar me-2"></i>Model Confidence Scores
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                {% for level, score in analysis_result.confidence_scores.items %}
+                                <div class="col-md-4 mb-3">
+                                    <div class="text-center">
+                                        <h6 class="text-muted mb-2">{{ level|title }} Level</h6>
+                                        <div class="position-relative d-inline-block">
+                                            <canvas id="homeConfidence{{ level|title }}Chart" width="100" height="100"></canvas>
+                                            <div class="position-absolute top-50 start-50 translate-middle">
+                                                <span class="fw-bold fs-6">{{ score|floatformat:1 }}%</span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <span class="badge {% if score >= 0.8 %}bg-success{% elif score >= 0.6 %}bg-warning{% else %}bg-danger{% endif %}">
+                                                {% if score >= 0.8 %}High{% elif score >= 0.6 %}Medium{% else %}Low{% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'sentiment:detail' analysis_id %}" class="btn btn-outline-primary">
+                            <i class="fas fa-eye me-2"></i>View Detailed Results
+                        </a>
+                        <a href="{% url 'sentiment:history' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-history me-2"></i>View History
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="card border-primary card-hover">
+                    <div class="card-body text-center">
+                        <i class="fas fa-layer-group fa-3x text-primary mb-3"></i>
+                        <h5>3-Level Analysis</h5>
+                        <p class="text-muted">Hierarchical sentiment classification with ensemble averaging</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-success card-hover">
+                    <div class="card-body text-center">
+                        <i class="fas fa-robot fa-3x text-success mb-3"></i>
+                        <h5>AI-Powered</h5>
+                        <p class="text-muted">Advanced machine learning models trained on crypto sentiment data</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-warning card-hover">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-line fa-3x text-warning mb-3"></i>
+                        <h5>Real-time</h5>
+                        <p class="text-muted">Instant analysis with confidence scores and detailed breakdowns</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('sentimentForm').addEventListener('submit', function(e) {
+    const btn = document.getElementById('analyzeBtn');
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyzing...';
+    btn.disabled = true;
+});
+
+// Charts for analysis results
+{% if analysis_result %}
+document.addEventListener('DOMContentLoaded', function() {
+    // Overview Chart
+    const overviewCtx = document.getElementById('overviewChart').getContext('2d');
+    const overviewData = {
+        labels: ['Level 1', 'Level 2', 'Level 3'],
+        datasets: [{
+            data: [
+                {% if analysis_result.level1_prediction %}1{% else %}0{% endif %},
+                {% if analysis_result.level2_prediction %}1{% else %}0{% endif %},
+                {% if analysis_result.level3_prediction %}1{% else %}0{% endif %}
+            ],
+            backgroundColor: [
+                '#0d6efd',  // Blue for Level 1
+                '#ffc107',  // Yellow for Level 2
+                '#6c757d'   // Gray for Level 3
+            ],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    };
+    
+    new Chart(overviewCtx, {
+        type: 'doughnut',
+        data: overviewData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 10,
+                        font: { size: 10 }
+                    }
+                }
+            },
+            cutout: '60%'
+        }
+    });
+
+    // Level 1 Chart
+    {% if analysis_result.level1_prediction %}
+    const homeLevel1Ctx = document.getElementById('homeLevel1Chart').getContext('2d');
+    const homeLevel1Probs = {% if analysis_result.probability_distributions.level1 %}{{ analysis_result.probability_distributions.level1|safe }}{% else %}[1.0, 0.0, 0.0]{% endif %};
+    const homeLevel1Data = {
+        labels: ['NOISE', 'OBJECTIVE', 'SUBJECTIVE'],
+        datasets: [{
+            data: [
+                homeLevel1Probs[0] * 100,
+                homeLevel1Probs[1] * 100,
+                homeLevel1Probs[2] * 100
+            ],
+            backgroundColor: [
+                '#dc3545',  // Red for NOISE
+                '#0d6efd',  // Blue for OBJECTIVE  
+                '#198754'   // Green for SUBJECTIVE
+            ],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    };
+    
+    new Chart(homeLevel1Ctx, {
+        type: 'doughnut',
+        data: homeLevel1Data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            cutout: '70%'
+        }
+    });
+    {% endif %}
+
+    // Level 2 Chart
+    {% if analysis_result.level2_prediction %}
+    const homeLevel2Ctx = document.getElementById('homeLevel2Chart').getContext('2d');
+    const homeLevel2Probs = {% if analysis_result.probability_distributions.level2 %}{{ analysis_result.probability_distributions.level2|safe }}{% else %}[1.0, 0.0, 0.0]{% endif %};
+    const homeLevel2Data = {
+        labels: ['NEUTRAL', 'NEGATIVE', 'POSITIVE'],
+        datasets: [{
+            data: [
+                homeLevel2Probs[0] * 100,
+                homeLevel2Probs[1] * 100,
+                homeLevel2Probs[2] * 100
+            ],
+            backgroundColor: [
+                '#6c757d',  // Gray for NEUTRAL
+                '#dc3545',  // Red for NEGATIVE
+                '#198754'   // Green for POSITIVE
+            ],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    };
+    
+    new Chart(homeLevel2Ctx, {
+        type: 'doughnut',
+        data: homeLevel2Data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            cutout: '70%'
+        }
+    });
+    {% endif %}
+
+    // Level 3 Chart
+    {% if analysis_result.level3_prediction %}
+    const homeLevel3Ctx = document.getElementById('homeLevel3Chart').getContext('2d');
+    const homeLevel3Probs = {% if analysis_result.probability_distributions.level3 %}{{ analysis_result.probability_distributions.level3|safe }}{% else %}[0.0, 0.0, 0.0, 1.0]{% endif %};
+    const homeLevel3Data = {
+        labels: ['NEUTRAL_SENTIMENT', 'QUESTION', 'ADVERTISEMENT', 'MISCELLANEOUS'],
+        datasets: [{
+            data: [
+                homeLevel3Probs[0] * 100,
+                homeLevel3Probs[1] * 100,
+                homeLevel3Probs[2] * 100,
+                homeLevel3Probs[3] * 100
+            ],
+            backgroundColor: [
+                '#6c757d',  // Gray for NEUTRAL_SENTIMENT
+                '#0dcaf0',  // Cyan for QUESTION
+                '#fd7e14',  // Orange for ADVERTISEMENT
+                '#6f42c1'   // Purple for MISCELLANEOUS
+            ],
+            borderWidth: 2,
+            borderColor: '#fff'
+        }]
+    };
+    
+    new Chart(homeLevel3Ctx, {
+        type: 'doughnut',
+        data: homeLevel3Data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            cutout: '70%'
+        }
+    });
+    {% endif %}
+
+    // Confidence Score Charts
+    {% if analysis_result.confidence_scores %}
+        {% for level, score in analysis_result.confidence_scores.items %}
+        const homeConfidence{{ level|title }}Ctx = document.getElementById('homeConfidence{{ level|title }}Chart').getContext('2d');
+        const homeConfidence{{ level|title }}Score = {{ score|floatformat:1 }};
+        const homeConfidence{{ level|title }}Data = {
+            datasets: [{
+                data: [homeConfidence{{ level|title }}Score * 100, (1 - homeConfidence{{ level|title }}Score) * 100],
+                backgroundColor: [
+                    {% if score >= 0.8 %}'#198754'{% elif score >= 0.6 %}'#ffc107'{% else %}'#dc3545'{% endif %},
+                    '#e9ecef'
+                ],
+                borderWidth: 0
+            }]
+        };
+        
+        new Chart(homeConfidence{{ level|title }}Ctx, {
+            type: 'doughnut',
+            data: homeConfidence{{ level|title }}Data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                cutout: '75%'
+            }
+        });
+        {% endfor %}
+    {% endif %}
+});
+{% endif %}
+</script>
+{% endblock %}
