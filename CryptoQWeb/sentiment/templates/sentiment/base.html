@@ -39,11 +39,13 @@
             font-size: 0.9rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+            color: #333 !important;
         }
         .confidence-display {
             font-size: 0.8rem;
             font-weight: 500;
             margin-top: 0.5rem;
+            color: #333 !important;
         }
         .level-card {
             min-height: 300px;
@@ -55,6 +57,126 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+        
+        /* Ensure proper text contrast */
+        body {
+            color: #333 !important;
+        }
+        
+        /* Fix text color in cards */
+        .card-body {
+            color: #333 !important;
+        }
+        
+        /* Fix text color in alerts */
+        .alert {
+            color: #333 !important;
+        }
+        
+        /* Fix text color in badges */
+        .badge {
+            color: #fff !important;
+        }
+        
+        /* Fix text color in form elements */
+        .form-label {
+            color: #333 !important;
+        }
+        
+        .form-text {
+            color: #6c757d !important;
+        }
+        
+        /* Fix text color in lists */
+        .list-unstyled li {
+            color: #333 !important;
+        }
+        
+        /* Ensure text is visible on light backgrounds */
+        .text-muted {
+            color: #6c757d !important;
+        }
+        
+        .text-secondary {
+            color: #6c757d !important;
+        }
+        
+        /* Fix specific problematic elements */
+        .stat-card {
+            color: #fff !important;
+        }
+        
+        .stat-card h4 {
+            color: #fff !important;
+        }
+        
+        .stat-card small {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        /* Ensure proper contrast for all text elements */
+        h1, h2, h3, h4, h5, h6 {
+            color: #333 !important;
+        }
+        
+        p, span, div {
+            color: #333 !important;
+        }
+        
+        /* Override for specific colored text classes */
+        .text-primary {
+            color: #0d6efd !important;
+        }
+        
+        .text-success {
+            color: #198754 !important;
+        }
+        
+        .text-warning {
+            color: #fd7e14 !important;
+        }
+        
+        .text-danger {
+            color: #dc3545 !important;
+        }
+        
+        .text-info {
+            color: #0dcaf0 !important;
+        }
+        
+        .text-dark {
+            color: #212529 !important;
+        }
+        
+        /* Ensure white text on dark backgrounds */
+        .gradient-bg, .bg-dark, .bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger, .bg-secondary {
+            color: #fff !important;
+        }
+        
+        .gradient-bg h1, .gradient-bg h2, .gradient-bg h3, .gradient-bg h4, .gradient-bg h5, .gradient-bg h6,
+        .gradient-bg p, .gradient-bg span, .gradient-bg div, .gradient-bg li, .gradient-bg ul {
+            color: #fff !important;
+        }
+        
+        /* Force white text on gradient backgrounds */
+        .gradient-bg * {
+            color: #fff !important;
+        }
+        
+        /* Specific overrides for FIRE conference section */
+        .card.gradient-bg .card-body,
+        .card.gradient-bg .card-body *,
+        .card.gradient-bg .card-body h1,
+        .card.gradient-bg .card-body h2,
+        .card.gradient-bg .card-body h3,
+        .card.gradient-bg .card-body h4,
+        .card.gradient-bg .card-body h5,
+        .card.gradient-bg .card-body h6,
+        .card.gradient-bg .card-body p,
+        .card.gradient-bg .card-body li,
+        .card.gradient-bg .card-body ul {
+            color: #ffffff !important;
         }
     </style>
 </head>

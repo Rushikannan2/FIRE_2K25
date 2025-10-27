@@ -159,6 +159,12 @@ models/
 checkpoints/
 weights/
 
+# Additional model file exclusions
+*.zip
+*.tar.gz
+__pycache__/
+venv/
+
 # Large media files
 *.mp4
 *.avi
