@@ -154,6 +154,11 @@ Thumbs.db
 *.bin
 *.safetensors
 
+# Model directories
+models/
+checkpoints/
+weights/
+
 # Large media files
 *.mp4
 *.avi
@@ -243,10 +248,7 @@ datasets/
 *.xml
 *.parquet
 
-# Model checkpoints and weights
-checkpoints/
-weights/
-models/
+# Additional model formats
 *.ckpt
 *.pth.tar
 *.model
