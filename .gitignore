@@ -1,3 +1,35 @@
+# Model files and large binaries
+models/
+CryptoQWeb/models/
+*.pth
+*.pt
+*.h5
+*.onnx
+*.zip
+*.tar.gz
+*.rar
+*.dll
+*.exe
+*.jar
+
+# Virtual environments and cache
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE and system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Temporary and log files
+*.log
+*.tmp
+*.temp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
