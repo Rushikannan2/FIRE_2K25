@@ -1,0 +1,465 @@
+<!-- Interactive Sentiment Analysis Visualizations -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card shadow-lg border-0">
+            <div class="card-header gradient-bg text-white">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-chart-bar me-2"></i>Interactive Analysis Visualizations
+                </h3>
+                <p class="mb-0 mt-2">Advanced visual insights into the sentiment analysis process</p>
+            </div>
+            <div class="card-body p-4">
+                
+                <!-- 1. Input Text Visualization - Token Importance Heatmap -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h4 class="text-primary mb-3">
+                            <i class="fas fa-highlighter me-2"></i>Token Importance Heatmap
+                        </h4>
+                        <div class="card border-primary">
+                            <div class="card-body">
+                                <div id="tokenHeatmap" class="token-heatmap">
+                                    <!-- Tokens will be dynamically inserted here based on actual analysis -->
+                                </div>
+                                <div class="mt-3">
+                                    <small class="text-muted">
+                                        <span class="badge bg-success me-2">Positive Influence</span>
+                                        <span class="badge bg-danger me-2">Negative Influence</span>
+                                        <span class="badge bg-secondary me-2">Neutral/Minor Impact</span>
+                                        <span class="badge bg-warning me-2">High Importance</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Word Cloud - Sentiment-Weighted -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h4 class="text-primary mb-3">
+                            <i class="fas fa-cloud me-2"></i>Sentiment-Weighted Word Cloud
+                        </h4>
+                        <div class="card border-success">
+                            <div class="card-body text-center">
+                                <div id="wordCloud" class="word-cloud-container"></div>
+                                <div class="mt-3">
+                                    <small class="text-muted">Word size represents frequency/weight, color represents sentiment polarity</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 3. Decision Flow Visualization -->
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="text-primary mb-3">
+                            <i class="fas fa-sitemap me-2"></i>Decision Flow Visualization
+                        </h4>
+                        <div class="card border-secondary">
+                            <div class="card-body">
+                                <div id="flowDiagram" class="flow-diagram"></div>
+                                <div class="mt-3">
+                                    <small class="text-muted">Animated flow showing: Input Tokens → Transformer Encoder → Pooled Embedding → Classification Head → Final Output</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include required libraries -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.js"></script>
+
+<style>
+/* Custom styles for visualizations */
+.token-heatmap {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 0.5rem;
+    min-height: 80px;
+}
+
+.token {
+    display: inline-block;
+    margin: 2px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.token:hover {
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.token.positive {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.token.negative {
+    background: linear-gradient(135deg, #dc3545, #fd7e14);
+    color: white;
+}
+
+.token.neutral {
+    background: linear-gradient(135deg, #6c757d, #adb5bd);
+    color: white;
+}
+
+.token.high-importance {
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.6);
+    border: 2px solid #ffc107;
+}
+
+.word-cloud-container {
+    height: 400px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #dee2e6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Word cloud styling */
+.word-cloud-container canvas {
+    border-radius: 0.5rem;
+}
+
+.word-cloud-container:hover {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Fixed Confidence Gauge Styles */
+.confidence-gauge-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 200px;
+}
+
+.confidence-gauge-container {
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+}
+
+.gauge-center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.gauge-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #4F46E5;
+}
+
+.gauge-label {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.embedding-plot {
+    height: 350px;
+    background: white;
+    border-radius: 0.5rem;
+}
+
+.flow-diagram {
+    height: 250px;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 0.5rem;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.flow-step {
+    position: absolute;
+    background: white;
+    border: 2px solid #4F46E5;
+    border-radius: 0.5rem;
+    padding: 12px 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    transition: all 0.5s ease;
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 120px;
+    max-width: 140px;
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+.flow-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 20px solid #4F46E5;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 5px rgba(79, 70, 229, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(79, 70, 229, 0.8); }
+}
+
+.flow-step.active {
+    animation: glow 2s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .flow-diagram {
+        height: 200px;
+        padding: 15px;
+    }
+    
+    .flow-step {
+        padding: 8px 12px;
+        font-size: 0.75rem;
+        min-width: 100px;
+        max-width: 120px;
+    }
+    
+    .flow-arrow {
+        border-left: 15px solid #4F46E5;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+    }
+}
+</style>
+
+<script>
+// Real data from Django analysis - replace hardcoded values
+const analysisData = {
+    text: "{{ analysis.text|escapejs }}",
+    finalClassification: "{{ analysis.final_classification|escapejs }}",
+    level1Prediction: "{{ analysis.level1_prediction|escapejs }}",
+    level2Prediction: "{{ analysis.level2_prediction|escapejs }}",
+    level3Prediction: "{{ analysis.level3_prediction|escapejs }}",
+    confidenceScores: {
+        level1: {% if analysis.confidence_scores.level1 %}{{ analysis.confidence_scores.level1 }}{% else %}null{% endif %},
+        level2: {% if analysis.confidence_scores.level2 %}{{ analysis.confidence_scores.level2 }}{% else %}null{% endif %},
+        level3: {% if analysis.confidence_scores.level3 %}{{ analysis.confidence_scores.level3 }}{% else %}null{% endif %}
+    }
+};
+
+// Function to analyze text and extract tokens with sentiment
+function analyzeTextTokens(text) {
+    // Simple tokenization and sentiment analysis
+    // In a real implementation, this would come from your model
+    const words = text.toLowerCase().split(/\s+/);
+    const sentimentWords = {
+        positive: ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic', 'incredible', 'potential', 'growth', 'success', 'profit', 'bullish', 'moon', 'pump', 'hodl', 'buy', 'strong', 'up', 'rise', 'gain'],
+        negative: ['bad', 'terrible', 'awful', 'horrible', 'worst', 'crash', 'dump', 'bearish', 'sell', 'weak', 'down', 'fall', 'loss', 'scam', 'fraud', 'bubble', 'overpriced'],
+        neutral: ['the', 'is', 'are', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'from', 'up', 'about', 'into', 'through', 'during']
+    };
+    
+    return words.map(word => {
+        let sentiment = 'neutral';
+        let importance = 0.3;
+        
+        if (sentimentWords.positive.includes(word)) {
+            sentiment = 'positive';
+            importance = 0.8 + Math.random() * 0.2;
+        } else if (sentimentWords.negative.includes(word)) {
+            sentiment = 'negative';
+            importance = 0.8 + Math.random() * 0.2;
+        } else if (sentimentWords.neutral.includes(word)) {
+            sentiment = 'neutral';
+            importance = 0.1 + Math.random() * 0.3;
+        } else {
+            // Unknown words get medium importance
+            importance = 0.4 + Math.random() * 0.4;
+        }
+        
+        return {
+            word: word,
+            sentiment: sentiment,
+            importance: importance
+        };
+    });
+}
+
+// Function to create word cloud data from analysis
+function createWordCloudData(tokens) {
+    const wordCounts = {};
+    tokens.forEach(token => {
+        if (wordCounts[token.word]) {
+            wordCounts[token.word].count++;
+            wordCounts[token.word].importance = Math.max(wordCounts[token.word].importance, token.importance);
+        } else {
+            wordCounts[token.word] = {
+                count: 1,
+                sentiment: token.sentiment,
+                importance: token.importance
+            };
+        }
+    });
+    
+    return Object.entries(wordCounts)
+        .filter(([word, data]) => data.count > 0 && word.length > 2) // Filter short words
+        .sort((a, b) => b[1].count * b[1].importance - a[1].count * a[1].importance)
+        .slice(0, 30) // Increased to top 30 words for richer cloud
+        .map(([word, data]) => ({
+            text: word,
+            weight: Math.max(data.count * data.importance * 15, 5), // Increased base weight
+            sentiment: data.sentiment
+        }));
+}
+
+// 1. Token Importance Heatmap - Using Real Text
+function createTokenHeatmap() {
+    const container = document.getElementById('tokenHeatmap');
+    container.innerHTML = '';
+    
+    const tokens = analyzeTextTokens(analysisData.text);
+    
+    tokens.forEach(token => {
+        const span = document.createElement('span');
+        span.className = `token ${token.sentiment} ${token.importance > 0.7 ? 'high-importance' : ''}`;
+        span.textContent = token.word;
+        span.title = `Sentiment: ${token.sentiment}, Importance: ${(token.importance * 100).toFixed(1)}%`;
+        container.appendChild(span);
+    });
+}
+
+// 2. Word Cloud - Attractive and Large
+function createWordCloud() {
+    const tokens = analyzeTextTokens(analysisData.text);
+    const wordCloudData = createWordCloudData(tokens);
+    
+    // Enhanced word cloud with better colors and sizing
+    const words = wordCloudData.map(item => [
+        item.text, 
+        item.weight * 2, // Increase weight for larger words
+        item.sentiment === 'positive' ? '#27AE60' : 
+        item.sentiment === 'negative' ? '#E74C3C' : '#95A5A6'
+    ]);
+    
+    if (words.length > 0) {
+        WordCloud(document.getElementById('wordCloud'), {
+            list: words,
+            weightFactor: 3, // Increased for larger words
+            fontFamily: 'Impact, Arial Black, sans-serif',
+            color: function(word, weight, fontSize, distance, theta) {
+                // Dynamic color based on sentiment
+                const wordData = words.find(w => w[0] === word);
+                return wordData ? wordData[2] : '#95A5A6';
+            },
+            rotateRatio: 0.2, // Less rotation for better readability
+            rotationAngles: [-30, 0, 30], // Reduced rotation angles
+            gridSize: 4, // Smaller grid for tighter packing
+            drawOutOfBound: false,
+            shrinkToFit: true,
+            backgroundColor: 'transparent',
+            minFontSize: 16, // Larger minimum font size
+            maxFontSize: 80, // Much larger maximum font size
+            ellipticity: 0.8, // Slightly elliptical for better appearance
+            hover: function(item, dimension, event) {
+                // Add hover effect
+                event.target.style.transform = 'scale(1.1)';
+                event.target.style.transition = 'transform 0.3s ease';
+            },
+            click: function(item, dimension, event) {
+                console.log('Word clicked:', item[0]);
+            }
+        });
+    } else {
+        document.getElementById('wordCloud').innerHTML = `
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <div class="text-center">
+                    <i class="fas fa-cloud fa-3x text-muted mb-3"></i>
+                    <p class="text-muted mb-0">No significant words found for word cloud</p>
+                </div>
+            </div>
+        `;
+    }
+}
+
+// 3. Decision Flow Diagram - Clear and properly fitted text
+function createFlowDiagram() {
+    const container = document.getElementById('flowDiagram');
+    container.innerHTML = '';
+    
+    const steps = [
+        { id: 'tokens', text: 'Input Tokens', x: 8, y: 50 },
+        { id: 'encoder', text: 'Transformer Encoder', x: 28, y: 50 },
+        { id: 'pooling', text: 'Pooled Embedding', x: 48, y: 50 },
+        { id: 'classification', text: 'Classification Head', x: 68, y: 50 },
+        { id: 'output', text: 'Final Output: ' + analysisData.finalClassification, x: 88, y: 50 }
+    ];
+    
+    steps.forEach((step, index) => {
+        const stepDiv = document.createElement('div');
+        stepDiv.className = 'flow-step';
+        stepDiv.id = step.id;
+        stepDiv.textContent = step.text;
+        stepDiv.style.left = `${step.x}%`;
+        stepDiv.style.top = `${step.y}%`;
+        stepDiv.style.width = '12%';
+        stepDiv.style.height = '60px';
+        container.appendChild(stepDiv);
+        
+        // Add arrows between steps
+        if (index < steps.length - 1) {
+            const arrow = document.createElement('div');
+            arrow.className = 'flow-arrow';
+            arrow.style.left = `${step.x + 12}%`;
+            arrow.style.top = `${step.y + 20}%`;
+            container.appendChild(arrow);
+        }
+    });
+    
+    // Animate the flow
+    let currentStep = 0;
+    const animateFlow = () => {
+        steps.forEach((step, index) => {
+            const stepElement = document.getElementById(step.id);
+            if (index <= currentStep) {
+                stepElement.classList.add('active');
+            } else {
+                stepElement.classList.remove('active');
+            }
+        });
+        
+        currentStep = (currentStep + 1) % steps.length;
+        setTimeout(animateFlow, 1500);
+    };
+    
+    setTimeout(animateFlow, 500);
+}
+
+// Initialize all visualizations when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    createTokenHeatmap();
+    createWordCloud();
+    createFlowDiagram();
+});
+</script>

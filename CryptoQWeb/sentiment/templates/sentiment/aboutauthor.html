@@ -1,0 +1,96 @@
+{% extends 'sentiment/base.html' %}
+
+{% block title %}About Author - CryptoQ Sentiment Analyzer{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-lg">
+            <div class="card-header gradient-bg text-white">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-user-graduate me-2"></i>About the Author
+                </h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- IIIT Kottayam Summer Internship Image -->
+                    <div class="col-md-6 mb-4">
+                        <div class="text-center">
+                            <img src="/static/IIITKottayam_Summer_Internship.jpg" 
+                                 alt="IIIT Kottayam Summer Internship" 
+                                 class="img-fluid rounded shadow"
+                                 style="max-height: 500px; width: auto;">
+                            <h4 class="mt-3 text-primary">IIIT Kottayam</h4>
+                            <p class="text-muted">Summer Research Internship Program</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Author Information -->
+                    <div class="col-md-6">
+                        <div class="h-100 d-flex flex-column justify-content-center">
+                            <h3 class="text-primary mb-3">
+                                <i class="fas fa-user me-2"></i>VT RushiKannan
+                            </h3>
+                            
+                            <div class="mb-4">
+                                <h5 class="text-secondary">Summer Research Intern</h5>
+                                <p class="lead">Indian Institute of Information Technology (IIIT) Kottayam</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5 class="text-secondary">
+                                    <i class="fas fa-graduation-cap me-2"></i>Research Focus
+                                </h5>
+                                <p>Specializing in Opinion Extraction and Question Answering from Cryptocurrency-Related Social Media Data</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h5 class="text-secondary">
+                                    <i class="fas fa-code me-2"></i>Technical Expertise
+                                </h5>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>Machine Learning & Deep Learning</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Natural Language Processing</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Sentiment Analysis</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Social Media Data Mining</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Cryptocurrency Analytics</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="alert alert-info">
+                                <h6 class="alert-heading">
+                                    <i class="fas fa-info-circle me-2"></i>About This Project
+                                </h6>
+                                <p class="mb-0">This sentiment analyzer is part of the CryptOQA track research at FIRE 2025, focusing on extracting opinions and answering questions from cryptocurrency-related tweets and Reddit posts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Additional Information Section -->
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h4 class="text-primary mb-3">
+                                    <i class="fas fa-university me-2"></i>Institution Information
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="text-secondary">Indian Institute of Information Technology (IIIT) Kottayam</h6>
+                                        <p class="text-muted">A premier technical institute focused on Information Technology education and research</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="text-secondary">FIRE 2025 Conference</h6>
+                                        <p class="text-muted">17th Forum for Information Retrieval Evaluation at IIT (BHU) Varanasi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

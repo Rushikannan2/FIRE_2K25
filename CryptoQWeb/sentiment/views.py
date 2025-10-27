@@ -169,3 +169,11 @@ def analysis_detail(request, analysis_id):
     except SentimentAnalysis.DoesNotExist:
         messages.error(request, 'Analysis not found.')
         return redirect('sentiment:home')
+
+def about_author(request):
+    """About Author page"""
+    return render(request, 'sentiment/aboutauthor.html')
+
+def about_us(request):
+    """About Us page"""
+    return render(request, 'sentiment/aboutus.html')

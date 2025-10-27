@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: cryptoq-sentiment-analyzer
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py migrate
+    startCommand: python manage.py runserver 0.0.0.0:$PORT
+    envVars:
+      - key: DEBUG
+        value: False
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: cryptoq-sentiment-analyzer.onrender.com
+    disk:
+      name: cryptoq-disk
+      mountPath: /opt/render/project/src/CryptoQWeb/media
+      sizeGB: 1
