@@ -144,18 +144,112 @@ dmypy.json
 ehthumbs.db
 Thumbs.db
 
-# Project specific
+# Project specific - Large model files
 *.pth
 *.pkl
 *.joblib
 *.h5
 *.hdf5
+*.pt
+*.bin
+*.safetensors
+
+# Large media files
+*.mp4
+*.avi
+*.mov
+*.wmv
+*.flv
+*.mkv
+*.webm
+
+# Large archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+
+# Large documents
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+
+# Cache and temporary files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.egg-info/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+
+# Virtual environments
+venv/
+env/
+ENV/
+.env
+.venv
 
 # Media files (if large)
 # media/
 
 # Static files (will be collected)
 staticfiles/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# pytest cache
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Node modules (if any)
+node_modules/
+
+# Large datasets
+data/
+datasets/
+*.csv
+*.json
+*.xml
+*.parquet
+
+# Model checkpoints and weights
+checkpoints/
+weights/
+models/
+*.ckpt
+*.pth.tar
+*.model
 
 # Local development
 .env.local
