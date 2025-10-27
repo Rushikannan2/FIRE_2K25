@@ -269,3 +269,12 @@ __pycache__/
 *.pth
 *.zip
 *.tar.gz
+venv/
+__pycache__/
+models/
+*.pth
+*.zip
+*.tar.gz
+*.pt
+*.rar
+*.h5
