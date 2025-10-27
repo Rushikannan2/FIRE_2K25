@@ -263,3 +263,9 @@ datasets/
 .env.local
 .env.development
 .env.production
+venv/
+models/
+__pycache__/
+*.pth
+*.zip
+*.tar.gz
