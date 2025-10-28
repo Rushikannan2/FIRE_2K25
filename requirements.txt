@@ -1,8 +1,9 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
 Django==4.2.7
 djangorestframework==3.14.0
 Pillow==10.4.0
-torch==2.1.1
-torchvision==0.16.1
+torch==2.1.1+cpu
+torchvision==0.16.1+cpu
 transformers==4.35.2
 numpy==1.24.3
 pandas==2.1.1
