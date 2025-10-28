@@ -2,7 +2,7 @@ services:
   - type: web
     name: CryptoQ
     env: python
-    buildCommand: "pip install -r requirements.txt && echo 'Build completed successfully - Django app ready!'"
+    buildCommand: "pip install -r requirements.txt && python download_models_enhanced.py"
     startCommand: "cd CryptoQWeb && python manage.py runserver 0.0.0.0:$PORT"
     rootDir: .
     envVars:
