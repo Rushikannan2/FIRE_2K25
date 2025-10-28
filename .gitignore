@@ -283,6 +283,7 @@ data/
 datasets/
 *.csv
 *.json
+!model_config.json
 *.xml
 *.parquet
 
