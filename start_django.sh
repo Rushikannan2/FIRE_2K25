@@ -12,6 +12,8 @@ if [ ! -f "manage.py" ]; then
     echo "Current directory: $(pwd)"
     echo "Files in current directory:"
     ls -la
+    echo "Parent directory contents:"
+    ls -la ..
     exit 1
 fi
 
