@@ -2,7 +2,7 @@ services:
   - type: web
     name: CryptoQ
     env: python
-    buildCommand: "pip install -r requirements.txt && python create_empty_models.py"
+    buildCommand: "pip install -r requirements.txt && python download_models_enhanced.py"
     startCommand: "chmod +x start_django.sh && ./start_django.sh"
     rootDir: .
     envVars:
