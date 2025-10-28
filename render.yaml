@@ -1,19 +1,12 @@
-# Render Deployment Configuration for CryptoQ Sentiment Analyzer
-
-# Build Command
-python download_models.py && pip install -r requirements.txt
-
-# Start Command
-cd CryptoQWeb && python manage.py runserver 0.0.0.0:$PORT
-
-# Environment Variables
-PYTHON_VERSION=3.11.0
-DJANGO_SETTINGS_MODULE=CryptoQWeb.settings
-
-# Build Settings
-BUILD_COMMAND=python download_models.py && pip install -r requirements.txt
-START_COMMAND=cd CryptoQWeb && python manage.py runserver 0.0.0.0:$PORT
-
-# Dependencies
-# The download_models.py script will automatically download model files during build
-# Model files are stored in models/ directory and excluded from Git via .gitignore
+services:
+  - type: web
+    name: CryptoQ
+    env: python
+    buildCommand: "pip install -r requirements.txt && python download_models.py"
+    startCommand: "cd CryptoQWeb && python manage.py runserver 0.0.0.0:$PORT"
+    rootDir: .
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: CryptoQWeb.settings
+      - key: PYTHONPATH
+        value: /opt/render/project/src/CryptoQWeb
