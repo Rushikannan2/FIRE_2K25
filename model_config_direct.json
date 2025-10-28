@@ -1,0 +1,25 @@
+{
+  "model_urls": {
+    "Level1/Fold1": "https://drive.google.com/uc?export=download&id=135Bantj4cToGl5e7d5pfJg1VDN1B2Rkq",
+    "Level1/Fold2": "https://drive.google.com/uc?export=download&id=1kpPEG9yM6QEEa_bpfWiQHAkcqKUqfZC9",
+    "Level1/Fold3": "https://drive.google.com/uc?export=download&id=1mTlSi50_xaAc3m6m38BghmUD8jrDJcoD",
+    "Level1/Fold4": "https://drive.google.com/uc?export=download&id=1IKttgCyFPiYzoAhTscasnBjWeRcZD1kY",
+    "Level1/Fold5": "https://drive.google.com/uc?export=download&id=19va4SIYdG8VF31VF1zot82UVPZmWDz5j",
+    "Level2/Fold1": "https://drive.google.com/uc?export=download&id=183l8s6y6O097_tOmD1AhZIgOTwg5l9qt",
+    "Level2/Fold2": "https://drive.google.com/uc?export=download&id=1hFZaI5DNr-BWuDXnMeH1eDNIdvxFTtgZ",
+    "Level2/Fold3": "https://drive.google.com/uc?export=download&id=1Y43fYp1VIk6XcFEBMbtG2--rfi3yRcW3",
+    "Level2/Fold4": "https://drive.google.com/uc?export=download&id=1gTDjO3LBtqfIexVlk4KKEhm2Jvt9UpTd",
+    "Level2/Fold5": "https://drive.google.com/uc?export=download&id=1ZCMC1KizUIOXSaHdFeqsCuoedzUDZoJ_",
+    "Level3/Fold1": "https://drive.google.com/uc?export=download&id=1Evvmn5EKc2oDD3wtnSPEtUUt4YCl0eUI",
+    "Level3/Fold2": "https://drive.google.com/uc?export=download&id=1fqZ1OOdVOPAQ3CIi0LMCpAMuz6UbPGgx",
+    "Level3/Fold3": "https://drive.google.com/uc?export=download&id=1GRqOjOAO1qOfHWtmpW1tm8690huuCOPQ",
+    "Level3/Fold4": "https://drive.google.com/uc?export=download&id=1tt0s2RJ2G9YfiAIOsqYhXhfPGCbcrqHX",
+    "Level3/Fold5": "https://drive.google.com/uc?export=download&id=1nmCEKJvSptND9HNanM6Rxv5Q2ExAN134"
+  },
+  "model_info": {
+    "total_models": 15,
+    "model_size_mb": 567,
+    "total_size_gb": 8.5,
+    "description": "CryptoQ Sentiment Analysis Models - Level1, Level2, Level3 with 5 folds each"
+  }
+}
