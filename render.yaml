@@ -2,11 +2,15 @@ services:
   - type: web
     name: CryptoQ
     env: python
-    buildCommand: "pip install -r requirements.txt && python create_empty_models.py"
-    startCommand: "python start_django.py"
+    buildCommand: "pip install -r requirements.txt && python download_models.py"
+    startCommand: "python manage.py runserver 0.0.0.0:$PORT"
     rootDir: .
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: CryptoQWeb.settings
       - key: PYTHONPATH
         value: /opt/render/project/src/CryptoQWeb
+      - key: PORT
+        value: 8000
+      - key: HF_HOME
+        value: /opt/render/project/src/.cache/huggingface
