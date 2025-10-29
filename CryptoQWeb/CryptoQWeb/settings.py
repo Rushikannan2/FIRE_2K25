@@ -25,16 +25,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-3#s#+$03-6n5m8t=de4w%2epqtrc=)+7+zq06qw4w#w*_8n4zy')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
+# DEBUG defaults to False for production safety
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = [
-    'cryptoq.onrender.com',
-    'localhost',
-    '127.0.0.1',
-    os.environ.get('RENDER_EXTERNAL_HOSTNAME', ''),
-]
-# Filter out empty strings
+# Get allowed hosts from environment or use defaults
+allowed_hosts_str = os.environ.get('ALLOWED_HOSTS', '')
+if allowed_hosts_str:
+    ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_str.split(',') if host.strip()]
+else:
+    ALLOWED_HOSTS = [
+        'cryptoq.onrender.com',
+        'localhost',
+        '127.0.0.1',
+        os.environ.get('RENDER_EXTERNAL_HOSTNAME', ''),
+    ]
+# Filter out empty strings and add render hostname if available
 ALLOWED_HOSTS = [host for host in ALLOWED_HOSTS if host]
+# Add Render's default hostname pattern
+if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
+    ALLOWED_HOSTS.append(os.environ.get('RENDER_EXTERNAL_HOSTNAME'))
 
 
 # Application definition
@@ -159,26 +168,31 @@ if 'whitenoise.middleware.WhiteNoiseMiddleware' in MIDDLEWARE:
         import whitenoise
         # Set root to staticfiles directory (absolute path for reliability)
         staticfiles_path = os.path.join(BASE_DIR, 'staticfiles')
-        WHITENOISE_ROOT = staticfiles_path
         # Don't fail if manifest is missing - serve files directly
         WHITENOISE_MANIFEST_STRICT = False
-        # Always use finders to find and serve images (critical for production)
-        WHITENOISE_USE_FINDERS = True
+        # In production (after collectstatic), serve from STATIC_ROOT
+        # In development, use finders to dynamically find files
+        WHITENOISE_USE_FINDERS = DEBUG  # Only use finders in development
         # Only auto-refresh in development
         WHITENOISE_AUTOREFRESH = DEBUG
-        # Add max-age for static files caching
+        # Add max-age for static files caching (1 year for production, no cache for dev)
         WHITENOISE_MAX_AGE = 31536000 if not DEBUG else 0
+        # Root directory for static files (STATIC_ROOT after collectstatic)
+        WHITENOISE_ROOT = staticfiles_path
+        # Enable automatic index files (if any)
+        WHITENOISE_INDEX_FILE = False
     except ImportError:
         pass
 
 # Security settings for production
+# Note: Some security settings can interfere with static file serving
 if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_SECONDS = 31536000
-    SECURE_REDIRECT_EXEMPT = []
-    SECURE_SSL_REDIRECT = True
+    # Don't redirect static files - let WhiteNoise handle them
+    SECURE_SSL_REDIRECT = False  # Disabled to allow WhiteNoise to serve static files properly
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     X_FRAME_OPTIONS = 'DENY'

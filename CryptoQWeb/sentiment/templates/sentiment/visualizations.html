@@ -51,6 +51,23 @@
                     </div>
                 </div>
 
+                <!-- 3. Decision Flow Diagram -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h4 class="text-primary mb-3">
+                            <i class="fas fa-project-diagram me-2"></i>Decision Flow Diagram
+                        </h4>
+                        <div class="card border-info">
+                            <div class="card-body">
+                                <div id="flowDiagram" class="flow-diagram"></div>
+                                <div class="mt-3">
+                                    <small class="text-muted">Visual representation of the model's decision-making process</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -58,7 +75,7 @@
 
 <!-- Include required libraries -->
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/wordcloud2.js@2.12.0/dist/wordcloud2.min.js" integrity="sha512-8xUnDXPZ5E9qN/9+JwxS8PhO9LuwfPa+ZfH1qJNqkVdqvD0czne+qfH3q6q1qZYKqQP7vGdK0sKGqLgF5J9UQ==" crossorigin="anonymous"></script>
 
 <style>
 /* Custom styles for visualizations */
@@ -388,6 +405,10 @@ function createWordCloud() {
 // 3. Decision Flow Diagram - Clear and properly fitted text
 function createFlowDiagram() {
     const container = document.getElementById('flowDiagram');
+    if (!container) {
+        console.error('Flow diagram container not found');
+        return;
+    }
     container.innerHTML = '';
     
     const steps = [
@@ -440,8 +461,39 @@ function createFlowDiagram() {
 
 // Initialize all visualizations when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    createTokenHeatmap();
-    createWordCloud();
-    createFlowDiagram();
+    console.log('Initializing visualizations...');
+    
+    // Initialize token heatmap
+    try {
+        createTokenHeatmap();
+    } catch (error) {
+        console.error('Error creating token heatmap:', error);
+    }
+    
+    // Wait for WordCloud library to load if needed
+    function initializeWordCloud() {
+        if (typeof WordCloud !== 'undefined') {
+            try {
+                createWordCloud();
+            } catch (error) {
+                console.error('Error creating word cloud:', error);
+            }
+        } else {
+            // Retry after a short delay if library not loaded
+            setTimeout(initializeWordCloud, 100);
+        }
+    }
+    
+    // Initialize word cloud
+    initializeWordCloud();
+    
+    // Initialize flow diagram
+    try {
+        createFlowDiagram();
+    } catch (error) {
+        console.error('Error creating flow diagram:', error);
+    }
+    
+    console.log('Visualizations initialized');
 });
 </script>
