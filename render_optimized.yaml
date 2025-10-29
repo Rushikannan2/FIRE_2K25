@@ -7,7 +7,7 @@ services:
       pip install --no-cache-dir --upgrade pip &&
       pip install --no-cache-dir -r requirements.txt &&
       python manage.py collectstatic --noinput &&
-      python download_models_optimized.py
+      python download_models.py
     startCommand: gunicorn CryptoQWeb.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
     rootDir: .
     plan: starter
