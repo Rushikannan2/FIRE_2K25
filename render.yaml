@@ -3,8 +3,8 @@ services:
     name: CryptoQ
     env: python
     pythonVersion: 3.11.9
-    buildCommand: bash build.sh
-    startCommand: bash start.sh
+    buildCommand: "pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt && cd CryptoQWeb && python manage.py collectstatic --noinput && python manage.py migrate --noinput && cd .. && python download_models.py"
+    startCommand: "gunicorn CryptoQWeb.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
     rootDir: .
     plan: starter
     envVars:
