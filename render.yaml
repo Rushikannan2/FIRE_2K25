@@ -20,5 +20,3 @@ services:
         value: your_huggingface_token_here
       - key: PYTHONUNBUFFERED
         value: 1
-      - key: DISABLE_COLLECTSTATIC
-        value: 1
