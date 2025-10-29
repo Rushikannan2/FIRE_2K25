@@ -30,7 +30,13 @@
                     <img src="{% static 'CryptoQ.jpeg' %}" 
                          alt="CryptoQ Sentiment Analyzer" 
                          class="img-fluid rounded-3 shadow-lg"
-                         style="max-height: 400px; width: auto;">
+                         style="max-height: 400px; width: auto;"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div style="display:none;" class="text-center p-4 bg-light rounded">
+                        <i class="fas fa-brain fa-3x text-primary mb-3"></i>
+                        <h4 class="text-primary">CryptoQ Sentiment Analyzer</h4>
+                        <p class="text-muted">AI-Powered Cryptocurrency Sentiment Analysis</p>
+                    </div>
                 </div>
                 <div class="hero-stats">
                     <div class="row g-3">
