@@ -12,7 +12,7 @@
                     <i class="fas fa-info-circle me-2"></i>About Us - CryptoQ Track
                 </h2>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="background-color: #ffffff !important;">
                 <div class="row">
                     <!-- FIRE Conference Information -->
                     <div class="col-md-9 mb-4">
@@ -22,39 +22,47 @@
                                     <i class="fas fa-conference me-2"></i>FIRE 2025 Conference
                                 </h3>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" style="background-color: #ffffff !important; color: #212529 !important;">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="text-center mb-4">
+                                        <div class="text-center mb-4 p-3">
                                             <img src="{% static 'FIRE.jpg' %}" 
                                                  alt="FIRE 2025 Conference Poster" 
-                                                 class="img-fluid rounded shadow"
-                                                 style="max-height: 400px; width: auto;"
-                                                 onerror="this.style.display='none';">
+                                                 class="img-fluid rounded shadow-lg"
+                                                 style="max-height: 450px; width: 100%; height: auto; display: block !important; visibility: visible !important; margin: 0 auto; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); object-fit: contain; border: 3px solid #0d6efd; background-color: #f8f9fa;"
+                                                 onerror="console.error('FIRE image failed to load'); this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                                 loading="eager">
+                                            <div style="display:none; min-height: 300px; align-items: center; justify-content: center;" class="text-center p-4 bg-light rounded">
+                                                <div>
+                                                    <i class="fas fa-conference fa-4x text-primary mb-3"></i>
+                                                    <h4 class="text-primary">FIRE 2025</h4>
+                                                    <p class="text-dark">17th Forum for Information Retrieval Evaluation</p>
+                                                </div>
+                                            </div>
                                             <div class="mt-3">
-                                                <h4 class="text-primary">FIRE 2025</h4>
+                                                <h4 class="text-primary fw-bold">FIRE 2025</h4>
                                                 <p class="text-dark">17th Forum for Information Retrieval Evaluation</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <h5 class="text-primary mb-3">Conference Details</h5>
+                                        <h5 class="text-primary mb-3" style="color: #0d6efd !important;">Conference Details</h5>
                                         <ul class="list-unstyled">
-                                            <li class="mb-2">
+                                            <li class="mb-2" style="color: #212529 !important;">
                                                 <i class="fas fa-calendar text-primary me-2"></i>
-                                                <strong>Event:</strong> FIRE 2025 Conference
+                                                <strong style="color: #212529 !important;">Event:</strong> <span style="color: #212529 !important;">FIRE 2025 Conference</span>
                                             </li>
-                                            <li class="mb-2">
+                                            <li class="mb-2" style="color: #212529 !important;">
                                                 <i class="fas fa-map-marker-alt text-primary me-2"></i>
-                                                <strong>Location:</strong> IIT (BHU) Varanasi, India
+                                                <strong style="color: #212529 !important;">Location:</strong> <span style="color: #212529 !important;">IIT (BHU) Varanasi, India</span>
                                             </li>
-                                            <li class="mb-2">
+                                            <li class="mb-2" style="color: #212529 !important;">
                                                 <i class="fas fa-university text-primary me-2"></i>
-                                                <strong>Institution:</strong> Indian Institute of Technology (BHU)
+                                                <strong style="color: #212529 !important;">Institution:</strong> <span style="color: #212529 !important;">Indian Institute of Technology (BHU)</span>
                                             </li>
-                                            <li class="mb-2">
+                                            <li class="mb-2" style="color: #212529 !important;">
                                                 <i class="fas fa-coins text-primary me-2"></i>
-                                                <strong>Our Track:</strong> CryptOQA (Opinion Extraction and Question Answering)
+                                                <strong style="color: #212529 !important;">Our Track:</strong> <span style="color: #212529 !important;">CryptOQA (Opinion Extraction and Question Answering)</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -71,24 +79,24 @@
                             </h3>
                             
                             <div class="mb-4">
-                                <h5 class="text-secondary">Opinion Extraction and Question Answering</h5>
-                                <p class="lead">From Cryptocurrency-Related Tweets and Reddit Posts</p>
+                                <h5 class="text-secondary" style="color: #6c757d !important;">Opinion Extraction and Question Answering</h5>
+                                <p class="lead" style="color: #212529 !important;">From Cryptocurrency-Related Tweets and Reddit Posts</p>
                             </div>
                             
                             <div class="mb-4">
-                                <h5 class="text-secondary">
+                                <h5 class="text-secondary" style="color: #6c757d !important;">
                                     <i class="fas fa-database me-2"></i>Dataset Classes
                                 </h5>
-                                <p>The opinion dataset contains the following classes:</p>
+                                <p style="color: #212529 !important;">The opinion dataset contains the following classes:</p>
                                 <ul class="list-unstyled">
-                                    <li><i class="fas fa-circle text-danger me-2"></i>Noise</li>
-                                    <li><i class="fas fa-circle text-info me-2"></i>Objective</li>
-                                    <li><i class="fas fa-circle text-success me-2"></i>Positive</li>
-                                    <li><i class="fas fa-circle text-warning me-2"></i>Negative</li>
-                                    <li><i class="fas fa-circle text-secondary me-2"></i>Neutral Sentiment</li>
-                                    <li><i class="fas fa-circle text-primary me-2"></i>Question</li>
-                                    <li><i class="fas fa-circle text-dark me-2"></i>Ads</li>
-                                    <li><i class="fas fa-circle text-muted me-2"></i>Miscellaneous</li>
+                                    <li style="color: #212529 !important;"><i class="fas fa-circle text-danger me-2"></i>Noise</li>
+                                    <li style="color: #212529 !important;"><i class="fas fa-circle text-info me-2"></i>Objective</li>
+                                    <li style="color: #212529 !important;"><i class="fas fa-circle text-success me-2"></i>Positive</li>
+                                    <li style="color: #212529 !important;"><i class="fas fa-circle text-warning me-2"></i>Negative</li>
+                                    <li style="color: #212529 !important;"><i class="fas fa-circle text-secondary me-2"></i>Neutral Sentiment</li>
+                                    <li style="color: #212529 !important;"><i class="fas fa-circle text-primary me-2"></i>Question</li>
+                                    <li style="color: #212529 !important;"><i class="fas fa-circle text-dark me-2"></i>Ads</li>
+                                    <li style="color: #212529 !important;"><i class="fas fa-circle text-muted me-2"></i>Miscellaneous</li>
                                 </ul>
                             </div>
                         </div>
@@ -99,8 +107,8 @@
                 <div class="row mt-5">
                     <div class="col-12">
                         <div class="card bg-light">
-                            <div class="card-body">
-                                <h4 class="text-primary mb-4">
+                            <div class="card-body" style="background-color: #f8f9fa !important; color: #212529 !important;">
+                                <h4 class="text-primary mb-4" style="color: #0d6efd !important;">
                                     <i class="fas fa-sitemap me-2"></i>Hierarchical Classification System
                                 </h4>
                                 
@@ -111,12 +119,12 @@
                                             <div class="card-header bg-primary text-white">
                                                 <h5 class="mb-0">Level 1</h5>
                                             </div>
-                                            <div class="card-body">
-                                                <h6 class="text-secondary">Three Main Classes:</h6>
-                                                <ul class="list-unstyled">
-                                                    <li><span class="badge bg-danger me-2">0</span>NOISE</li>
-                                                    <li><span class="badge bg-info me-2">1</span>OBJECTIVE</li>
-                                                    <li><span class="badge bg-success me-2">2</span>SUBJECTIVE</li>
+                                            <div class="card-body" style="background-color: #ffffff !important; color: #212529 !important;">
+                                                <h6 class="text-secondary" style="color: #6c757d !important;">Three Main Classes:</h6>
+                                                <ul class="list-unstyled" style="color: #212529 !important;">
+                                                    <li style="color: #212529 !important;"><span class="badge bg-danger me-2">0</span>NOISE</li>
+                                                    <li style="color: #212529 !important;"><span class="badge bg-info me-2">1</span>OBJECTIVE</li>
+                                                    <li style="color: #212529 !important;"><span class="badge bg-success me-2">2</span>SUBJECTIVE</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -128,12 +136,12 @@
                                             <div class="card-header bg-success text-white">
                                                 <h5 class="mb-0">Level 2</h5>
                                             </div>
-                                            <div class="card-body">
-                                                <h6 class="text-secondary">SUBJECTIVE Subcategories:</h6>
-                                                <ul class="list-unstyled">
-                                                    <li><span class="badge bg-secondary me-2">0</span>NEUTRAL</li>
-                                                    <li><span class="badge bg-warning me-2">1</span>NEGATIVE</li>
-                                                    <li><span class="badge bg-success me-2">2</span>POSITIVE</li>
+                                            <div class="card-body" style="background-color: #ffffff !important; color: #212529 !important;">
+                                                <h6 class="text-secondary" style="color: #6c757d !important;">SUBJECTIVE Subcategories:</h6>
+                                                <ul class="list-unstyled" style="color: #212529 !important;">
+                                                    <li style="color: #212529 !important;"><span class="badge bg-secondary me-2">0</span>NEUTRAL</li>
+                                                    <li style="color: #212529 !important;"><span class="badge bg-warning me-2">1</span>NEGATIVE</li>
+                                                    <li style="color: #212529 !important;"><span class="badge bg-success me-2">2</span>POSITIVE</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -145,13 +153,13 @@
                                             <div class="card-header bg-secondary text-white">
                                                 <h5 class="mb-0">Level 3</h5>
                                             </div>
-                                            <div class="card-body">
-                                                <h6 class="text-secondary">NEUTRAL Subcategories:</h6>
-                                                <ul class="list-unstyled">
-                                                    <li><span class="badge bg-secondary me-2">0</span>NEUTRAL SENTIMENTS</li>
-                                                    <li><span class="badge bg-primary me-2">1</span>QUESTIONS</li>
-                                                    <li><span class="badge bg-dark me-2">2</span>ADVERTISEMENTS</li>
-                                                    <li><span class="badge bg-muted me-2">3</span>MISCELLANEOUS</li>
+                                            <div class="card-body" style="background-color: #ffffff !important; color: #212529 !important;">
+                                                <h6 class="text-secondary" style="color: #6c757d !important;">NEUTRAL Subcategories:</h6>
+                                                <ul class="list-unstyled" style="color: #212529 !important;">
+                                                    <li style="color: #212529 !important;"><span class="badge bg-secondary me-2">0</span>NEUTRAL SENTIMENTS</li>
+                                                    <li style="color: #212529 !important;"><span class="badge bg-primary me-2">1</span>QUESTIONS</li>
+                                                    <li style="color: #212529 !important;"><span class="badge me-2" style="background-color: #6c757d !important; color: #ffffff !important;">2</span>ADVERTISEMENTS</li>
+                                                    <li style="color: #212529 !important;"><span class="badge me-2" style="background-color: #adb5bd !important; color: #212529 !important;">3</span>MISCELLANEOUS</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -171,38 +179,36 @@
                                     <i class="fas fa-lightbulb me-2"></i>Classification Examples
                                 </h5>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" style="background-color: #ffffff !important; color: #212529 !important;">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <div class="alert alert-success">
-                                            <h6 class="alert-heading">QUESTIONS Class</h6>
-                                            <p class="mb-1"><strong>Level 1:</strong> 2 (SUBJECTIVE)</p>
-                                            <p class="mb-1"><strong>Level 2:</strong> 0 (NEUTRAL)</p>
-                                            <p class="mb-0"><strong>Level 3:</strong> 1 (QUESTIONS)</p>
+                                        <div class="alert alert-success" style="color: #155724 !important;">
+                                            <h6 class="alert-heading" style="color: #155724 !important; font-weight: bold;">QUESTIONS Class</h6>
+                                            <p class="mb-1" style="color: #155724 !important;"><strong>Level 1:</strong> 2 (SUBJECTIVE)</p>
+                                            <p class="mb-1" style="color: #155724 !important;"><strong>Level 2:</strong> 0 (NEUTRAL)</p>
+                                            <p class="mb-0" style="color: #155724 !important;"><strong>Level 3:</strong> 1 (QUESTIONS)</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="alert alert-info">
-                                            <h6 class="alert-heading">OBJECTIVE Class</h6>
-                                            <p class="mb-1"><strong>Level 1:</strong> 1 (OBJECTIVE)</p>
-                                            <p class="mb-1"><strong>Level 2:</strong> [Blank]</p>
-                                            <p class="mb-0"><strong>Level 3:</strong> [Blank]</p>
+                                        <div class="alert alert-info" style="color: #0c5460 !important;">
+                                            <h6 class="alert-heading" style="color: #0c5460 !important; font-weight: bold;">OBJECTIVE Class</h6>
+                                            <p class="mb-1" style="color: #0c5460 !important;"><strong>Level 1:</strong> 1 (OBJECTIVE)</p>
+                                            <p class="mb-1" style="color: #0c5460 !important;"><strong>Level 2:</strong> [Blank]</p>
+                                            <p class="mb-0" style="color: #0c5460 !important;"><strong>Level 3:</strong> [Blank]</p>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="alert alert-warning">
-                                            <h6 class="alert-heading">NEGATIVE Class</h6>
-                                            <p class="mb-1"><strong>Level 1:</strong> 2 (SUBJECTIVE)</p>
-                                            <p class="mb-1"><strong>Level 2:</strong> 1 (NEGATIVE)</p>
-                                            <p class="mb-0"><strong>Level 3:</strong> [Blank]</p>
+                                        <div class="alert alert-warning" style="color: #856404 !important;">
+                                            <h6 class="alert-heading" style="color: #856404 !important; font-weight: bold;">NEGATIVE Class</h6>
+                                            <p class="mb-1" style="color: #856404 !important;"><strong>Level 1:</strong> 2 (SUBJECTIVE)</p>
+                                            <p class="mb-1" style="color: #856404 !important;"><strong>Level 2:</strong> 1 (NEGATIVE)</p>
+                                            <p class="mb-0" style="color: #856404 !important;"><strong>Level 3:</strong> [Blank]</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
                 </div>
             </div>
         </div>

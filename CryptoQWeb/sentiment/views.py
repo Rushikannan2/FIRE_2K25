@@ -177,3 +177,64 @@ def about_author(request):
 def about_us(request):
     """About Us page"""
     return render(request, 'sentiment/aboutus.html')
+
+def edit_analysis(request, analysis_id):
+    """Edit and re-analyze a sentiment analysis"""
+    try:
+        analysis = SentimentAnalysis.objects.get(id=analysis_id)
+        
+        if request.method == 'POST':
+            new_text = request.POST.get('text', '').strip()
+            
+            if not new_text:
+                messages.error(request, 'Please enter some text to analyze.')
+                return render(request, 'sentiment/edit_analysis.html', {'analysis': analysis})
+            
+            try:
+                # Get analyzer
+                analyzer_instance = get_analyzer()
+                if analyzer_instance is None:
+                    messages.error(request, 'Sentiment analyzer is not available.')
+                    return render(request, 'sentiment/edit_analysis.html', {'analysis': analysis})
+                
+                # Perform new analysis
+                results = analyzer_instance.analyze(new_text)
+                
+                # Update the record
+                analysis.text = new_text
+                analysis.level1_prediction = results.get('level1_prediction')
+                analysis.level2_prediction = results.get('level2_prediction')
+                analysis.level3_prediction = results.get('level3_prediction')
+                analysis.final_classification = results.get('final_classification')
+                analysis.confidence_scores = results.get('confidence_scores', {})
+                analysis.save()
+                
+                messages.success(request, 'Analysis updated successfully!')
+                return redirect('sentiment:detail', analysis_id=analysis.id)
+                
+            except Exception as e:
+                logger.error(f"Error in edit analysis: {e}")
+                messages.error(request, f'Analysis failed: {str(e)}')
+                return render(request, 'sentiment/edit_analysis.html', {'analysis': analysis})
+        
+        return render(request, 'sentiment/edit_analysis.html', {'analysis': analysis})
+        
+    except SentimentAnalysis.DoesNotExist:
+        messages.error(request, 'Analysis not found.')
+        return redirect('sentiment:history')
+
+def delete_analysis(request, analysis_id):
+    """Delete a sentiment analysis"""
+    try:
+        analysis = SentimentAnalysis.objects.get(id=analysis_id)
+        
+        if request.method == 'POST':
+            analysis.delete()
+            messages.success(request, 'Analysis deleted successfully.')
+            return redirect('sentiment:history')
+        
+        return render(request, 'sentiment/delete_analysis.html', {'analysis': analysis})
+        
+    except SentimentAnalysis.DoesNotExist:
+        messages.error(request, 'Analysis not found.')
+        return redirect('sentiment:history')

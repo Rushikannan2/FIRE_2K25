@@ -12,10 +12,11 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         .card-hover {
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
         }
         .card-hover:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
         }
         .sentiment-badge {
             font-size: 1.1rem;
@@ -216,6 +217,56 @@
             color: #fff !important;
         }
         
+        /* Fix About Us page text visibility - override white text on white background */
+        .card-body {
+            background-color: #ffffff !important;
+        }
+        
+        .card-body:not(.gradient-bg .card-body):not(.bg-light .card-body) {
+            color: #212529 !important;
+        }
+        
+        .card-body:not(.gradient-bg .card-body):not(.bg-light .card-body) *:not(.text-white):not(.text-primary):not(.text-success):not(.text-warning):not(.text-danger):not(.text-info) {
+            color: #212529 !important;
+        }
+        
+        /* Footer visibility */
+        footer {
+            background-color: #212529 !important;
+            color: #ffffff !important;
+        }
+        
+        footer * {
+            color: #ffffff !important;
+        }
+        
+        footer strong {
+            color: #ffffff !important;
+            font-weight: bold !important;
+        }
+        
+        /* Action buttons in history table */
+        .btn-outline-warning:hover,
+        .btn-outline-warning:hover i {
+            background-color: #ffc107 !important;
+            color: #000000 !important;
+            border-color: #ffc107 !important;
+        }
+        
+        .btn-outline-danger:hover,
+        .btn-outline-danger:hover i {
+            background-color: #dc3545 !important;
+            color: #ffffff !important;
+            border-color: #dc3545 !important;
+        }
+        
+        .btn-outline-primary:hover,
+        .btn-outline-primary:hover i {
+            background-color: #0d6efd !important;
+            color: #ffffff !important;
+            border-color: #0d6efd !important;
+        }
+        
         /* Specific overrides for FIRE conference section */
         .card.gradient-bg .card-body,
         .card.gradient-bg .card-body *,
@@ -229,6 +280,247 @@
         .card.gradient-bg .card-body li,
         .card.gradient-bg .card-body ul {
             color: #ffffff !important;
+        }
+        
+        /* Ensure images are visible */
+        img {
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Ensure tables are fully visible */
+        .table-responsive {
+            display: block !important;
+            width: 100% !important;
+            visibility: visible !important;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Ensure all table rows and cells are visible */
+        table {
+            display: table !important;
+            visibility: visible !important;
+            width: 100% !important;
+        }
+        
+        table tr {
+            display: table-row !important;
+            visibility: visible !important;
+        }
+        
+        table td,
+        table th {
+            display: table-cell !important;
+            visibility: visible !important;
+        }
+        
+        /* Ensure social media buttons are visible */
+        .btn {
+            display: inline-block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        
+        /* Ensure Font Awesome icons load */
+        .fab,
+        .fas,
+        .far {
+            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Free" !important;
+            font-weight: 400;
+            display: inline-block;
+            visibility: visible !important;
+        }
+        
+        /* Ensure card body content is visible */
+        .card-body * {
+            visibility: visible !important;
+        }
+        
+        /* Ensure all text elements have proper contrast */
+        .card-body p,
+        .card-body li,
+        .card-body span,
+        .card-body div {
+            color: #212529 !important;
+        }
+        
+        /* Ensure list items are visible */
+        ul li,
+        ol li {
+            display: list-item !important;
+            visibility: visible !important;
+        }
+        
+        /* Hero section improvements */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.05)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+            opacity: 0.3;
+        }
+        
+        .hero-section > .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Button improvements */
+        .btn {
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        /* Image improvements */
+        .hero-image img {
+            animation: fadeInScale 0.8s ease-out;
+            transition: transform 0.3s ease;
+        }
+        
+        .hero-image img:hover {
+            transform: scale(1.02);
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Ensure hero image is always visible */
+        .hero-image {
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-image img {
+            visibility: visible !important;
+            display: block !important;
+            opacity: 1 !important;
+        }
+        
+        /* Ensure all images are visible and highlighted */
+        img {
+            visibility: visible !important;
+            display: block !important;
+            opacity: 1 !important;
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.4) !important;
+        }
+        
+        /* Image containers */
+        .hero-image,
+        .text-center img,
+        [class*="col"] img {
+            position: relative;
+            overflow: visible;
+        }
+        
+        /* Ensure static images load properly */
+        img[src*="static"],
+        img[src*="/static/"] {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            background-color: #f8f9fa;
+        }
+        
+        /* Button text visibility fix */
+        .btn-light,
+        .btn-light *,
+        .btn-light i,
+        .btn-light span {
+            color: #212529 !important;
+        }
+        
+        .btn-light:hover {
+            background-color: #f8f9fa !important;
+            color: #000000 !important;
+        }
+        
+        .btn-light:hover *,
+        .btn-light:hover i,
+        .btn-light:hover span {
+            color: #000000 !important;
+        }
+        
+        /* Learn More button (outline-light) hover fix */
+        .btn-outline-light,
+        .btn-outline-light *,
+        .btn-outline-light i,
+        .btn-outline-light span {
+            color: #ffffff !important;
+            background-color: transparent !important;
+        }
+        
+        .btn-outline-light:hover {
+            background-color: rgba(255,255,255,0.2) !important;
+            color: #ffffff !important;
+            border-color: rgba(255,255,255,0.9) !important;
+        }
+        
+        .btn-outline-light:hover *,
+        .btn-outline-light:hover i,
+        .btn-outline-light:hover span {
+            color: #ffffff !important;
+        }
+        
+        /* Badge visibility fixes */
+        .badge.bg-dark,
+        .badge[style*="background-color: #212529"],
+        .badge[style*="background-color:#212529"] {
+            background-color: #6c757d !important;
+            color: #ffffff !important;
+        }
+        
+        .badge.bg-muted,
+        .badge[style*="background-color: #6c757d"],
+        .badge[style*="background-color:#6c757d"] {
+            background-color: #adb5bd !important;
+            color: #212529 !important;
+        }
+        
+        /* Ensure images have fallback background */
+        .hero-image img,
+        .text-center img,
+        [class*="col"] img {
+            background-color: #f8f9fa;
+            min-height: 200px;
+        }
+        
+        /* Improved spacing */
+        .card-body {
+            position: relative;
         }
     </style>
 </head>
@@ -282,9 +574,11 @@
         {% endblock %}
     </main>
 
-    <footer class="bg-dark text-light py-4 mt-5">
+    <footer class="bg-dark text-light py-4 mt-5" style="background-color: #212529 !important; color: #ffffff !important;">
         <div class="container text-center">
-            <p class="mb-0">&copy; 2025 CryptoQ Sentiment Analyzer. Developed by VT RushiKannan.</p>
+            <p class="mb-0" style="color: #ffffff !important; font-size: 1.1rem; font-weight: 500;">
+                &copy; 2025 CryptoQ Sentiment Analyzer. <strong style="color: #ffffff !important; font-weight: bold;">Developed by VT RushiKannan</strong>.
+            </p>
         </div>
     </footer>
 

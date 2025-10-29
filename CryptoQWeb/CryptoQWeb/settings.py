@@ -51,7 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Must be after SecurityMiddleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -59,6 +59,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Ensure WhiteNoise serves static files in production
+WHITENOISE_USE_FINDERS = True  # Allow WhiteNoise to find static files
+WHITENOISE_AUTOREFRESH = True  # Auto-refresh in development
 
 ROOT_URLCONF = 'CryptoQWeb.urls'
 
@@ -138,7 +142,25 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # WhiteNoise compressed static files storage for production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Use CompressedStaticFilesStorage for more reliable image serving
+try:
+    import whitenoise
+    # Use CompressedStaticFilesStorage which is more forgiving with images
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+except ImportError:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# WhiteNoise configuration
+if 'whitenoise.middleware.WhiteNoiseMiddleware' in MIDDLEWARE:
+    try:
+        import whitenoise
+        WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+        WHITENOISE_MANIFEST_STRICT = False  # Don't fail if manifest is missing
+        # Ensure images are served correctly
+        WHITENOISE_AUTOREFRESH = DEBUG  # Only in development
+        WHITENOISE_USE_FINDERS = DEBUG  # Use finders in development
+    except ImportError:
+        pass
 
 # Security settings for production
 if not DEBUG:

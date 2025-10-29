@@ -12,60 +12,68 @@
                 </h2>
                 <p class="mb-0 mt-2">View your recent sentiment analysis results</p>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="background-color: #ffffff !important; color: #212529 !important;">
                 {% if analyses %}
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-hover" style="color: #212529 !important;">
                         <thead class="table-dark">
-                            <tr>
-                                <th>Text Preview</th>
-                                <th>Classification</th>
-                                <th>Level 1</th>
-                                <th>Level 2</th>
-                                <th>Level 3</th>
-                                <th>Date</th>
-                                <th>Actions</th>
+                            <tr style="background-color: #212529 !important;">
+                                <th style="color: #ffffff !important;">Text Preview</th>
+                                <th style="color: #ffffff !important;">Classification</th>
+                                <th style="color: #ffffff !important;">Level 1</th>
+                                <th style="color: #ffffff !important;">Level 2</th>
+                                <th style="color: #ffffff !important;">Level 3</th>
+                                <th style="color: #ffffff !important;">Date</th>
+                                <th style="color: #ffffff !important;">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style="color: #212529 !important;">
                             {% for analysis in analyses %}
-                            <tr>
-                                <td>
-                                    <div class="text-truncate" style="max-width: 200px;" title="{{ analysis.text }}">
+                            <tr style="color: #212529 !important;">
+                                <td style="color: #212529 !important;">
+                                    <div class="text-truncate" style="max-width: 200px; color: #212529 !important;" title="{{ analysis.text }}">
                                         {{ analysis.text|truncatechars:50 }}
                                     </div>
                                 </td>
-                                <td>
-                                    <span class="badge bg-success">{{ analysis.final_classification }}</span>
+                                <td style="color: #212529 !important;">
+                                    <span class="badge bg-success" style="color: #ffffff !important;">{{ analysis.final_classification }}</span>
                                 </td>
-                                <td>
+                                <td style="color: #212529 !important;">
                                     {% if analysis.level1_prediction %}
-                                        <span class="badge bg-primary">{{ analysis.level1_prediction }}</span>
+                                        <span class="badge bg-primary" style="color: #ffffff !important;">{{ analysis.level1_prediction }}</span>
                                     {% else %}
-                                        <span class="text-muted">-</span>
+                                        <span class="text-muted" style="color: #6c757d !important;">-</span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td style="color: #212529 !important;">
                                     {% if analysis.level2_prediction %}
-                                        <span class="badge bg-warning">{{ analysis.level2_prediction }}</span>
+                                        <span class="badge bg-warning" style="color: #000000 !important;">{{ analysis.level2_prediction }}</span>
                                     {% else %}
-                                        <span class="text-muted">-</span>
+                                        <span class="text-muted" style="color: #6c757d !important;">-</span>
                                     {% endif %}
                                 </td>
-                                <td>
+                                <td style="color: #212529 !important;">
                                     {% if analysis.level3_prediction %}
-                                        <span class="badge bg-secondary">{{ analysis.level3_prediction }}</span>
+                                        <span class="badge bg-secondary" style="color: #ffffff !important;">{{ analysis.level3_prediction }}</span>
                                     {% else %}
-                                        <span class="text-muted">-</span>
+                                        <span class="text-muted" style="color: #6c757d !important;">-</span>
                                     {% endif %}
                                 </td>
-                                <td>
-                                    <small class="text-muted">{{ analysis.created_at|date:"M d, Y H:i" }}</small>
+                                <td style="color: #212529 !important;">
+                                    <small class="text-muted" style="color: #6c757d !important;">{{ analysis.created_at|date:"M d, Y H:i" }}</small>
                                 </td>
                                 <td>
-                                    <a href="{% url 'sentiment:detail' analysis.id %}" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <a href="{% url 'sentiment:detail' analysis.id %}" class="btn btn-sm btn-outline-primary" title="View Details" style="min-width: 36px;">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{% url 'sentiment:edit' analysis.id %}" class="btn btn-sm btn-outline-warning" title="Edit & Re-analyze" style="min-width: 36px; color: #fd7e14 !important; border-color: #fd7e14 !important;">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{% url 'sentiment:delete' analysis.id %}" class="btn btn-sm btn-outline-danger" title="Delete" style="min-width: 36px; color: #dc3545 !important; border-color: #dc3545 !important;">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                             {% endfor %}
