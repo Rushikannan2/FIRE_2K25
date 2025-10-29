@@ -1,4 +1,5 @@
 {% extends 'sentiment/base.html' %}
+{% load static %}
 
 {% block title %}CryptoQ Sentiment Analyzer - Advanced AI-Powered Analysis{% endblock %}
 
@@ -26,7 +27,7 @@
             </div>
             <div class="col-lg-6 text-center">
                 <div class="hero-image mb-4">
-                    <img src="/static/CryptoQ.jpeg" 
+                    <img src="{% static 'CryptoQ.jpeg' %}" 
                          alt="CryptoQ Sentiment Analyzer" 
                          class="img-fluid rounded-3 shadow-lg"
                          style="max-height: 400px; width: auto;">

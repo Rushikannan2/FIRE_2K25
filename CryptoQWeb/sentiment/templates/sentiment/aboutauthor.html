@@ -1,4 +1,5 @@
 {% extends 'sentiment/base.html' %}
+{% load static %}
 
 {% block title %}About Author - CryptoQ Sentiment Analyzer{% endblock %}
 
@@ -16,7 +17,7 @@
                     <!-- IIIT Kottayam Summer Internship Image -->
                     <div class="col-md-6 mb-4">
                         <div class="text-center">
-                            <img src="/static/IIITKottayam_Summer_Internship.jpg" 
+                            <img src="{% static 'IIITKottayam_Summer_Internship.jpg' %}" 
                                  alt="IIIT Kottayam Summer Internship" 
                                  class="img-fluid rounded shadow"
                                  style="max-height: 500px; width: auto;">

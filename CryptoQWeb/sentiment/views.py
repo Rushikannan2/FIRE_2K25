@@ -19,8 +19,8 @@ def get_analyzer():
     global analyzer
     if analyzer is None:
         try:
-            # Update the path to match your actual model location
-            analyzer = SentimentAnalyzer(models_dir="D:\\CryptoQ\\models")
+            # Use relative path for Render deployment
+            analyzer = SentimentAnalyzer(models_dir="models")
         except Exception as e:
             logger.error(f"Failed to initialize sentiment analyzer: {e}")
             analyzer = None

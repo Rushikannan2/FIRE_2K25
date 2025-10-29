@@ -1,4 +1,5 @@
 {% extends 'sentiment/base.html' %}
+{% load static %}
 
 {% block title %}About Us - CryptoQ Sentiment Analyzer{% endblock %}
 
@@ -16,7 +17,7 @@
                     <!-- FIRE Poster Image -->
                     <div class="col-md-9 mb-4">
                         <div class="text-center">
-                            <img src="/static/FIRE.jpg" 
+                            <img src="{% static 'FIRE.jpg' %}" 
                                  alt="FIRE 2025 Conference Poster" 
                                  class="img-fluid rounded-3 shadow-lg"
                                  style="max-height: 800px; width: 100%; object-fit: contain; background: white;">

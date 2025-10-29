@@ -288,6 +288,14 @@ class SentimentAnalyzer:
         
         # Build model paths supporting both flat and nested layouts
         self.model_paths = self._discover_model_paths(models_dir)
+        
+        # Initialize models attribute
+        self.models = None
+
+    def _ensure_models_loaded(self):
+        """Ensure models are loaded before use"""
+        if self.models is None:
+            self.models = self._load_models()
 
     def _discover_model_paths(self, models_dir: str) -> Dict[str, List[str]]:
         """Discover model files in both legacy flat layout and new nested Level/Fold layout."""
@@ -542,6 +550,9 @@ class SentimentAnalyzer:
                 'level3_prediction': None,
                 'confidence_scores': {'level1': 1.0, 'level2': 0.0, 'level3': 0.0}
             }
+        
+        # Ensure models are loaded
+        self._ensure_models_loaded()
         
         # Check if models are available
         if not any(self.models.values()):
