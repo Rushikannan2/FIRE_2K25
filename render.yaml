@@ -8,6 +8,8 @@ services:
       pip install --no-cache-dir -r requirements.txt &&
       python manage.py collectstatic --noinput &&
       python download_models_optimized.py
+    preDeployCommand: |
+      python manage.py migrate --noinput
     startCommand: gunicorn CryptoQWeb.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
     rootDir: .
     plan: starter

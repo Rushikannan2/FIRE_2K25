@@ -286,11 +286,34 @@ class SentimentAnalyzer:
         self.models_dir = models_dir
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
-        # Model paths for each level and fold
-        self.model_paths = {
-            'level1': [os.path.join(models_dir, f"level1_fold{i}.pth") for i in range(1, 6)],
-            'level2': [os.path.join(models_dir, f"level2_fold{i}.pth") for i in range(1, 6)],
-            'level3': [os.path.join(models_dir, f"level3_fold{i}.pth") for i in range(1, 6)]
+        # Build model paths supporting both flat and nested layouts
+        self.model_paths = self._discover_model_paths(models_dir)
+
+    def _discover_model_paths(self, models_dir: str) -> Dict[str, List[str]]:
+        """Discover model files in both legacy flat layout and new nested Level/Fold layout."""
+        def nested(level: int) -> List[str]:
+            paths: List[str] = []
+            level_dir = os.path.join(models_dir, f"Level{level}")
+            for fold in range(1, 6):
+                candidate = os.path.join(level_dir, f"Fold{fold}", "model.pth")
+                if os.path.exists(candidate):
+                    paths.append(candidate)
+            return paths
+
+        def flat(level: int) -> List[str]:
+            return [
+                p for p in [os.path.join(models_dir, f"level{level}_fold{i}.pth") for i in range(1, 6)]
+                if os.path.exists(p)
+            ]
+
+        paths_level1 = nested(1) or flat(1)
+        paths_level2 = nested(2) or flat(2)
+        paths_level3 = nested(3) or flat(3)
+
+        return {
+            'level1': paths_level1,
+            'level2': paths_level2,
+            'level3': paths_level3,
         }
         
         # Class mappings
@@ -363,7 +386,7 @@ class SentimentAnalyzer:
                         model.to(self.device)
                         
                         models[level].append(model)
-                        logger.info(f"✓ Loaded {level} fold {i+1} from {model_path}")
+                        logger.info(f"✓ Loaded {level} model from {model_path}")
                     else:
                         logger.warning(f"✗ Model not found: {model_path}")
                 except Exception as e:
