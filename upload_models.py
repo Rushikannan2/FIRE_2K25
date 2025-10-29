@@ -25,44 +25,42 @@ TOTAL_EXPECTED_FILES = 15  # 3 levels × 5 folds
 
 def check_hf_cli():
     """Check if Hugging Face CLI is installed and authenticated."""
-    print("🔍 Checking Hugging Face CLI installation...")
+    print("Checking Hugging Face CLI installation...")
     
     try:
         # Check if hf command exists
-        result = subprocess.run(["hf", "--version"], 
+        result = subprocess.run(["hf", "version"], 
                               capture_output=True, text=True, timeout=10)
         if result.returncode != 0:
-            print("❌ ERROR: Hugging Face CLI not found!")
+            print("ERROR: Hugging Face CLI not found!")
             print("Please install it with: pip install -U 'huggingface_hub[cli]'")
             return False
         
-        print(f"✅ Hugging Face CLI found: {result.stdout.strip()}")
+        print(f"SUCCESS: Hugging Face CLI found: {result.stdout.strip()}")
         
-        # Check authentication
-        auth_result = subprocess.run(["hf", "whoami"], 
-                                   capture_output=True, text=True, timeout=10)
-        if auth_result.returncode != 0:
-            print("❌ ERROR: Not authenticated with Hugging Face!")
-            print("Please run: hf auth login")
-            return False
-        
-        print(f"✅ Authenticated as: {auth_result.stdout.strip()}")
-        return True
+        # Check if token is set
+        token = os.environ.get('HUGGINGFACE_HUB_TOKEN')
+        if token:
+            print("SUCCESS: Hugging Face token found in environment")
+            return True
+        else:
+            print("INFO: No token in environment, will try to authenticate during upload")
+            return True
         
     except subprocess.TimeoutExpired:
-        print("❌ ERROR: Hugging Face CLI check timed out")
+        print("ERROR: Hugging Face CLI check timed out")
         return False
     except FileNotFoundError:
-        print("❌ ERROR: Hugging Face CLI not found!")
+        print("ERROR: Hugging Face CLI not found!")
         print("Please install it with: pip install -U 'huggingface_hub[cli]'")
         return False
     except Exception as e:
-        print(f"❌ ERROR: {str(e)}")
+        print(f"ERROR: {str(e)}")
         return False
 
 def find_model_files():
     """Find all model.pth files in the expected directory structure."""
-    print(f"\n🔍 Scanning for model files in {MODELS_BASE_DIR}...")
+    print(f"\nScanning for model files in {MODELS_BASE_DIR}...")
     
     model_files = []
     
@@ -70,7 +68,7 @@ def find_model_files():
     for level in ["Level1", "Level2", "Level3"]:
         level_path = MODELS_BASE_DIR / level
         if not level_path.exists():
-            print(f"⚠️  Warning: {level_path} directory not found")
+            print(f"WARNING: {level_path} directory not found")
             continue
         
         for fold in ["Fold1", "Fold2", "Fold3", "Fold4", "Fold5"]:
@@ -88,11 +86,11 @@ def find_model_files():
                     'size_mb': file_size_mb,
                     'description': f"{level}/{fold}"
                 })
-                print(f"✅ Found: {model_file} ({file_size_mb:.1f} MB)")
+                print(f"FOUND: {model_file} ({file_size_mb:.1f} MB)")
             else:
-                print(f"⚠️  Missing: {model_file}")
+                print(f"MISSING: {model_file}")
     
-    print(f"\n📊 Found {len(model_files)}/{TOTAL_EXPECTED_FILES} model files")
+    print(f"\nFound {len(model_files)}/{TOTAL_EXPECTED_FILES} model files")
     return model_files
 
 def upload_single_file(file_info):
@@ -102,16 +100,17 @@ def upload_single_file(file_info):
     description = file_info['description']
     size_mb = file_info['size_mb']
     
-    print(f"\n📤 Uploading {description} ({size_mb:.1f} MB)...")
+    print(f"\nUPLOADING {description} ({size_mb:.1f} MB)...")
     print(f"   Local: {local_path}")
     print(f"   HF Path: {hf_path}")
     
     try:
-        # Use hf upload command
+        # Use hf upload command with correct syntax
         cmd = [
             "hf", "upload",
+            HF_REPO,                    # Repository ID
             str(local_path),           # Local file path
-            f"{HF_REPO}/{hf_path}",   # Destination in HF repo
+            hf_path,                   # Path in repo
             "--repo-type", "model"     # Specify it's a model repo
         ]
         
@@ -124,23 +123,23 @@ def upload_single_file(file_info):
                               timeout=600)  # 10 minute timeout for large files
         
         if result.returncode == 0:
-            print(f"✅ SUCCESS: {description} uploaded successfully!")
+            print(f"SUCCESS: {description} uploaded successfully!")
             return True
         else:
-            print(f"❌ FAILED: {description}")
+            print(f"FAILED: {description}")
             print(f"   Error: {result.stderr}")
             return False
             
     except subprocess.TimeoutExpired:
-        print(f"⏰ TIMEOUT: {description} upload timed out (>10 minutes)")
+        print(f"TIMEOUT: {description} upload timed out (>10 minutes)")
         return False
     except Exception as e:
-        print(f"❌ ERROR: {description} - {str(e)}")
+        print(f"ERROR: {description} - {str(e)}")
         return False
 
 def main():
     """Main function to orchestrate the upload process."""
-    print("🚀 CryptoQ Model Upload to Hugging Face")
+    print("CryptoQ Model Upload to Hugging Face")
     print("=" * 50)
     print(f"Target Repository: {HF_REPO}")
     print(f"Models Directory: {MODELS_BASE_DIR}")
@@ -148,14 +147,14 @@ def main():
     
     # Step 1: Check prerequisites
     if not check_hf_cli():
-        print("\n❌ Prerequisites not met. Please fix the issues above and try again.")
+        print("\nPrerequisites not met. Please fix the issues above and try again.")
         sys.exit(1)
     
     # Step 2: Find model files
     model_files = find_model_files()
     
     if not model_files:
-        print("\n❌ No model files found!")
+        print("\nNo model files found!")
         print("Please ensure your models are in the correct directory structure:")
         print("models/Level1/Fold1/model.pth")
         print("models/Level1/Fold2/model.pth")
@@ -163,7 +162,7 @@ def main():
         sys.exit(1)
     
     # Step 3: Upload files
-    print(f"\n📤 Starting upload of {len(model_files)} files...")
+    print(f"\nStarting upload of {len(model_files)} files...")
     print("=" * 50)
     
     successful_uploads = 0
@@ -179,27 +178,27 @@ def main():
         
         # Small delay between uploads to be nice to HF servers
         if i < len(model_files):
-            print("   ⏳ Waiting 2 seconds before next upload...")
+            print("   Waiting 2 seconds before next upload...")
             time.sleep(2)
     
     # Step 4: Summary
     print("\n" + "=" * 50)
-    print("📊 UPLOAD SUMMARY")
+    print("UPLOAD SUMMARY")
     print("=" * 50)
     print(f"Total files found: {len(model_files)}")
     print(f"Successful uploads: {successful_uploads}")
     print(f"Failed uploads: {failed_uploads}")
     
     if successful_uploads == len(model_files):
-        print("\n🎉 SUCCESS: All model files uploaded successfully!")
-        print(f"🔗 Repository: https://huggingface.co/{HF_REPO}")
-        print("\n✅ You can now update your download script to use Hugging Face URLs!")
+        print("\nSUCCESS: All model files uploaded successfully!")
+        print(f"Repository: https://huggingface.co/{HF_REPO}")
+        print("\nYou can now update your download script to use Hugging Face URLs!")
         print("   Example: https://huggingface.co/rushikannan/FIRE_CryptoQA/resolve/main/models/Level1/Fold1/model.pth")
     elif successful_uploads > 0:
-        print(f"\n⚠️  PARTIAL SUCCESS: {successful_uploads}/{len(model_files)} files uploaded")
+        print(f"\nPARTIAL SUCCESS: {successful_uploads}/{len(model_files)} files uploaded")
         print("Please check the error messages above and retry failed uploads.")
     else:
-        print("\n❌ FAILED: No files were uploaded successfully")
+        print("\nFAILED: No files were uploaded successfully")
         print("Please check your authentication and try again.")
     
     print("\n" + "=" * 50)
