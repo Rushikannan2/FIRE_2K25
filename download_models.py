@@ -1,7 +1,12 @@
 import os
+import sys
 from huggingface_hub import hf_hub_download
 
 token = os.getenv("HF_TOKEN")
+if not token:
+    print("❌ ERROR: HF_TOKEN environment variable not set!")
+    sys.exit(1)
+
 repo = "rushikannan/FIRE_CryptoQA"
 
 levels = ["Level1", "Level2", "Level3"]
@@ -32,5 +37,7 @@ print("=" * 60)
 print(f"📊 DOWNLOAD SUMMARY\nTotal models: 15\nSuccessful: {success}\nFailed: {15-success}")
 if success == 15:
     print("🎉 All models downloaded successfully!")
+    sys.exit(0)
 else:
     print("⚠️ Some models failed to download. Check errors above.")
+    sys.exit(1)
