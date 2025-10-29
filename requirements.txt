@@ -35,5 +35,8 @@ huggingface_hub==0.16.4
 requests==2.31.0
 urllib3==2.0.4
 
+# Static files middleware for production
+whitenoise==6.6.0
+
 # Database configuration for Render
 dj-database-url==2.1.0
