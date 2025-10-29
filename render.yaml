@@ -3,11 +3,7 @@ services:
     name: CryptoQ
     env: python
     pythonVersion: 3.11.9
-    buildCommand: |
-      pip install --no-cache-dir --upgrade pip &&
-      pip install --no-cache-dir -r requirements.txt &&
-      python manage.py collectstatic --noinput &&
-      python download_models_optimized.py
+    buildCommand: bash build.sh
     preDeployCommand: |
       python manage.py migrate --noinput
     startCommand: gunicorn CryptoQWeb.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120
@@ -17,7 +13,7 @@ services:
       - key: DJANGO_SETTINGS_MODULE
         value: CryptoQWeb.settings
       - key: PYTHONPATH
-        value: /opt/render/project/src
+        value: /opt/render/project/src/CryptoQWeb
       - key: PORT
         value: 8000
       - key: HF_HOME
