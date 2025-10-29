@@ -3,7 +3,7 @@ services:
     name: CryptoQ
     env: python
     pythonVersion: 3.11.9
-    buildCommand: "pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt && cd CryptoQWeb && python manage.py collectstatic --noinput && python manage.py migrate --noinput && cd .. && python download_models.py"
+    buildCommand: "pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt && cd CryptoQWeb && python manage.py collectstatic --noinput --clear && echo 'Verifying static files collection...' && ls -la ../assets/*.jpg ../assets/*.jpeg 2>/dev/null && ls -la staticfiles/*.jpg staticfiles/*.jpeg 2>/dev/null || true && python manage.py migrate --noinput && cd .. && python download_models.py"
     startCommand: "gunicorn CryptoQWeb.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
     rootDir: .
     plan: starter

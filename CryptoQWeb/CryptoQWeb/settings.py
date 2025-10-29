@@ -60,10 +60,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Ensure WhiteNoise serves static files in production
-WHITENOISE_USE_FINDERS = True  # Allow WhiteNoise to find static files
-WHITENOISE_AUTOREFRESH = True  # Auto-refresh in development
-
 ROOT_URLCONF = 'CryptoQWeb.urls'
 
 TEMPLATES = [
@@ -134,31 +130,44 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    BASE_DIR / 'assets',
+    BASE_DIR / 'assets',  # Path object works fine in Django
+]
+
+# Ensure static files finders are configured
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# WhiteNoise compressed static files storage for production
-# Use CompressedStaticFilesStorage for more reliable image serving
+# WhiteNoise static files storage for production
+# Use StaticFilesStorage (not compressed) to avoid image hashing issues
 try:
     import whitenoise
-    # Use CompressedStaticFilesStorage which is more forgiving with images
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+    # Always use StaticFilesStorage (not compressed) for reliable image serving
+    # This ensures images are served without hash names, making URLs predictable
+    STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 except ImportError:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-# WhiteNoise configuration
+# WhiteNoise configuration - Critical for production image serving
 if 'whitenoise.middleware.WhiteNoiseMiddleware' in MIDDLEWARE:
     try:
         import whitenoise
-        WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-        WHITENOISE_MANIFEST_STRICT = False  # Don't fail if manifest is missing
-        # Ensure images are served correctly
-        WHITENOISE_AUTOREFRESH = DEBUG  # Only in development
-        WHITENOISE_USE_FINDERS = DEBUG  # Use finders in development
+        # Set root to staticfiles directory (absolute path for reliability)
+        staticfiles_path = os.path.join(BASE_DIR, 'staticfiles')
+        WHITENOISE_ROOT = staticfiles_path
+        # Don't fail if manifest is missing - serve files directly
+        WHITENOISE_MANIFEST_STRICT = False
+        # Always use finders to find and serve images (critical for production)
+        WHITENOISE_USE_FINDERS = True
+        # Only auto-refresh in development
+        WHITENOISE_AUTOREFRESH = DEBUG
+        # Add max-age for static files caching
+        WHITENOISE_MAX_AGE = 31536000 if not DEBUG else 0
     except ImportError:
         pass
 
