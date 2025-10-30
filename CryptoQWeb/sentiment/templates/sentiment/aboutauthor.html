@@ -19,12 +19,11 @@
                         <div class="text-center p-4" style="background: rgba(13,110,253,0.06); border-radius: 16px;">
                             <picture>
                                 <source srcset="{% static 'IIITKottayam_Summer_Internship.jpg' %}" type="image/jpeg">
-                                <img src="{% static 'IIITKottayam_Summer_Internship.jpg' %}"
+                                <img src="https://i.postimg.cc/NLJwLV4q/IIITKottayam-Summer-Internship.jpg"
                                      alt="IIIT Kottayam Summer Internship" 
                                      class="img-fluid rounded shadow-lg"
                                      style="width: 100%; max-width: 920px; height: auto; display: block !important; visibility: visible !important; margin: 0 auto; border-radius: 14px; box-shadow: 0 12px 36px rgba(0,0,0,0.28); object-fit: contain; border: 3px solid #0d6efd; background-color: #ffffff0d;"
-                                     loading="eager"
-                                     onerror="console.error('IIIT Kottayam image failed to load'); this.src='https://i.postimg.cc/NLJwLV4q/IIITKottayam-Summer-Internship.jpg';">
+                                     loading="eager">
                             </picture>
                             <div style="display:none; min-height: 400px; align-items: center; justify-content: center;" class="text-center p-5 bg-light rounded">
                                 <div>
@@ -48,27 +47,33 @@
                                 <h5 class="text-secondary mb-3">
                                     <i class="fas fa-external-link-alt me-2"></i>Connect With Me
                                 </h5>
-                                <div class="d-flex flex-wrap gap-2" style="visibility: visible !important; display: flex !important;">
-                                    <a href="https://www.linkedin.com/in/vt--rushikannan/" 
-                                       target="_blank" 
-                                       rel="noopener noreferrer" 
-                                       class="btn btn-primary btn-sm"
-                                       style="display: inline-block !important; visibility: visible !important; opacity: 1 !important; color: #fff !important;">
-                                        <i class="fab fa-linkedin me-2"></i>LinkedIn
+                                <div class="d-flex flex-wrap gap-3 align-items-center" style="display: flex !important; visibility: visible !important;">
+                                    <a href="https://www.linkedin.com/in/vt--rushikannan/"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="btn btn-primary btn-lg px-4"
+                                       aria-label="LinkedIn Profile"
+                                       style="display: inline-flex !important; align-items: center; gap: 8px;">
+                                        <i class="fab fa-linkedin"></i>
+                                        <span>LinkedIn</span>
                                     </a>
-                                    <a href="https://medium.com/@kannan.rushi05" 
-                                       target="_blank" 
-                                       rel="noopener noreferrer" 
-                                       class="btn btn-dark btn-sm"
-                                       style="display: inline-block !important; visibility: visible !important; opacity: 1 !important; color: #fff !important;">
-                                        <i class="fab fa-medium me-2"></i>Medium
+                                    <a href="https://medium.com/@kannan.rushi05"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="btn btn-dark btn-lg px-4"
+                                       aria-label="Medium Articles"
+                                       style="display: inline-flex !important; align-items: center; gap: 8px;">
+                                        <i class="fab fa-medium"></i>
+                                        <span>Medium</span>
                                     </a>
-                                    <a href="https://github.com/Rushikannan2" 
-                                       target="_blank" 
-                                       rel="noopener noreferrer" 
-                                       class="btn btn-secondary btn-sm"
-                                       style="display: inline-block !important; visibility: visible !important; opacity: 1 !important; color: #fff !important;">
-                                        <i class="fab fa-github me-2"></i>GitHub
+                                    <a href="https://github.com/Rushikannan2"
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       class="btn btn-secondary btn-lg px-4"
+                                       aria-label="GitHub Profile"
+                                       style="display: inline-flex !important; align-items: center; gap: 8px;">
+                                        <i class="fab fa-github"></i>
+                                        <span>GitHub</span>
                                     </a>
                                 </div>
                             </div>
@@ -274,7 +279,7 @@
                                             </tr>
                                             <tr>
                                                 <td>Evaluation Metric</td>
-                                                <td>Macro-F1, Confusion Matrix, Recall, Precision, UMAP</td>
+                                                <td>Macro-F1, CM, Recall, Precision, UMAP</td>
                                             </tr>
                                             <tr>
                                                 <td>Cross-Validation</td>
