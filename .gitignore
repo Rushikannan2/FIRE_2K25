@@ -1,3 +1,31 @@
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.sqlite3
+
+# Django static collection
+CryptoQWeb/staticfiles/
+
+# Virtual environments
+.venv/
+venv/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs
+*.log
+
 # Model files and large binaries
 models/
 CryptoQWeb/models/

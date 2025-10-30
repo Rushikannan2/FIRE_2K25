@@ -17,7 +17,7 @@ ALLOWED_HOSTS=your-app-name.onrender.com,localhost,127.0.0.1
 #### **Complete .env Should Look Like:**
 
 ```
-DATABASE_URL=postgresql://cryptoq_database_user:your-db-password@dpg-d40rguq4d50c739gt9ng-a.oregon-postgres.render.com/cryptoq_database
+DATABASE_URL=postgresql://<user>:<password>@<host>/<db>
 DJANGO_SETTINGS_MODULE=CryptoQWeb.settings
 HF_HOME=/opt/render/project/src/.cache/huggingface
 HF_TOKEN=your-huggingface-token-here
