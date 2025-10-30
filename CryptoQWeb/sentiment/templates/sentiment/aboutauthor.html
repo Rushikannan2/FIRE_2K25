@@ -19,11 +19,12 @@
                         <div class="text-center p-4" style="background: rgba(13,110,253,0.06); border-radius: 16px;">
                             <picture>
                                 <source srcset="{% static 'IIITKottayam_Summer_Internship.jpg' %}" type="image/jpeg">
-                                <img src="https://i.postimg.cc/NLJwLV4q/IIITKottayam-Summer-Internship.jpg"
+                                <img src="{% static 'IIITKottayam_Summer_Internship.jpg' %}"
                                      alt="IIIT Kottayam Summer Internship" 
                                      class="img-fluid rounded shadow-lg"
                                      style="width: 100%; max-width: 920px; height: auto; display: block !important; visibility: visible !important; margin: 0 auto; border-radius: 14px; box-shadow: 0 12px 36px rgba(0,0,0,0.28); object-fit: contain; border: 3px solid #0d6efd; background-color: #ffffff0d;"
-                                     loading="eager">
+                                     loading="eager"
+                                     onerror="console.error('IIIT Kottayam image failed to load'); this.src='https://i.postimg.cc/NLJwLV4q/IIITKottayam-Summer-Internship.jpg';">
                             </picture>
                             <div style="display:none; min-height: 400px; align-items: center; justify-content: center;" class="text-center p-5 bg-light rounded">
                                 <div>
@@ -223,70 +224,68 @@
                                 </h4>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <h5 class="text-success mb-3">
-                                            <i class="fas fa-brain me-2"></i>Model Configuration
-                                        </h5>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span><strong>Model:</strong></span>
-                                                <span class="text-primary">microsoft/deberta-v3-small</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span><strong>Epochs:</strong></span>
-                                                <span>5 (early stopping)</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span><strong>Optimizer:</strong></span>
-                                                <span>AdamW</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span><strong>Learning Rate:</strong></span>
-                                                <span>Cosine annealing with warmup</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span><strong>Mixed Precision:</strong></span>
-                                                <span class="text-success">Enabled (AMP)</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h5 class="text-success mb-3">
-                                            <i class="fas fa-sliders-h me-2"></i>Training Parameters
-                                        </h5>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span><strong>Batch Size:</strong></span>
-                                                <span>16 (adjustable)</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span><strong>Max Input Length:</strong></span>
-                                                <span>256 tokens</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span><strong>Tokenization:</strong></span>
-                                                <span>HuggingFace DeBERTa</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span><strong>Loss Function:</strong></span>
-                                                <span>Focal Loss</span>
-                                            </li>
-                                            <li class="list-group-item d-flex justify-content-between">
-                                                <span><strong>Cross-Validation:</strong></span>
-                                                <span class="text-info">5-fold stratified</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="mt-3">
-                                    <h5 class="text-success mb-2">
-                                        <i class="fas fa-trophy me-2"></i>Evaluation & Ensembling
-                                    </h5>
-                                    <div class="alert alert-light border-success">
-                                        <p class="mb-2"><strong>Evaluation Metrics:</strong> Macro-F1, Confusion Matrix, Recall, Precision, UMAP</p>
-                                        <p class="mb-0"><strong>Ensembling:</strong> Majority voting across 5-fold cross-validation</p>
-                                    </div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead class="table-success">
+                                            <tr>
+                                                <th>Component</th>
+                                                <th>Setting</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Model</td>
+                                                <td>microsoft/deberta-v3-small (transformer encoder)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Epochs</td>
+                                                <td>5 (early stopping on validation Macro-F1)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Optimizer</td>
+                                                <td>AdamW</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Learning Rate Scheduler</td>
+                                                <td>Cosine annealing with warmup</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mixed Precision</td>
+                                                <td>Enabled (Automatic Mixed Precision, AMP)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Batch Size</td>
+                                                <td>16 (adjustable to hardware)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Maximum Input Length</td>
+                                                <td>256 tokens</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tokenization</td>
+                                                <td>HuggingFace DeBERTa tokenizer</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Loss Function</td>
+                                                <td>
+                                                    Focal Loss (commonly used for class imbalance), optionally combined with
+                                                    Dice Loss, Label Smoothing, or Supervised Contrastive Loss
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Evaluation Metric</td>
+                                                <td>Macro-F1, Confusion Matrix, Recall, Precision, UMAP</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Cross-Validation</td>
+                                                <td>5-fold stratified</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ensembling</td>
+                                                <td>Majority voting across folds</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
