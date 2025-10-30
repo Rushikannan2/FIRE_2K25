@@ -17,16 +17,14 @@
                     <!-- IIIT Kottayam Summer Internship Image -->
                     <div class="col-md-6 mb-4">
                         <div class="text-center p-4" style="background: rgba(13,110,253,0.06); border-radius: 16px;">
-                            <!-- Old local static path kept for reference:
-                            <img src="{% static 'IIITKottayam_Summer_Internship.jpg' %}" alt="IIIT Kottayam Summer Internship">
-                            -->
-                            <img src="https://i.postimg.cc/NLJwLV4q/IIITKottayam-Summer-Internship.jpg"
-                                 srcset="https://i.postimg.cc/NLJwLV4q/IIITKottayam-Summer-Internship.jpg 1x, https://i.postimg.cc/NLJwLV4q/IIITKottayam-Summer-Internship.jpg 2x" 
-                                 alt="IIIT Kottayam Summer Internship" 
-                                 class="img-fluid rounded shadow-lg"
-                                 style="max-height: 600px; max-width: 100%; width: auto; height: auto; display: block !important; visibility: visible !important; margin: 0 auto; border-radius: 14px; box-shadow: 0 12px 36px rgba(0,0,0,0.28); object-fit: contain; border: 3px solid #0d6efd; background-color: #ffffff0d;"
-                                 onerror="console.error('IIIT image failed to load'); this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                                 loading="eager">
+                            <picture>
+                                <source srcset="{% static 'IIITKottayam_Summer_Internship.jpg' %}" type="image/jpeg">
+                                <img src="https://i.postimg.cc/NLJwLV4q/IIITKottayam-Summer-Internship.jpg"
+                                     alt="IIIT Kottayam Summer Internship" 
+                                     class="img-fluid rounded shadow-lg"
+                                     style="width: 100%; max-width: 920px; height: auto; display: block !important; visibility: visible !important; margin: 0 auto; border-radius: 14px; box-shadow: 0 12px 36px rgba(0,0,0,0.28); object-fit: contain; border: 3px solid #0d6efd; background-color: #ffffff0d;"
+                                     loading="eager">
+                            </picture>
                             <div style="display:none; min-height: 400px; align-items: center; justify-content: center;" class="text-center p-5 bg-light rounded">
                                 <div>
                                     <i class="fas fa-university fa-4x text-primary mb-4"></i>
