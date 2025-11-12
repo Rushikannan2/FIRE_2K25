@@ -20,17 +20,17 @@ def format_classification_path(level1, level2=None, level3=None):
     level1_map = {
         'NOISE': {
             'path': 'NOISE',
-            'description': 'Unusable or irrelevant data',
+            'description': 'Unusable or irrelevant data that cannot be analyzed',
             'stop': True
         },
         'OBJECTIVE': {
             'path': 'OBJECTIVE',
-            'description': 'Factual, neutral statement',
+            'description': 'Factual statement without personal opinion or emotion',
             'stop': True
         },
         'SUBJECTIVE': {
             'path': 'SUBJECTIVE',
-            'description': 'Opinionated or personal post',
+            'description': 'Opinionated or personal post containing subjective content',
             'stop': False
         }
     }
@@ -39,17 +39,17 @@ def format_classification_path(level1, level2=None, level3=None):
     level2_map = {
         'NEUTRAL': {
             'path': 'NEUTRAL',
-            'description': 'Subjective but emotionally neutral',
+            'description': 'Subjective content with no strong emotional sentiment (neither positive nor negative)',
             'stop': False
         },
         'NEGATIVE': {
             'path': 'NEGATIVE',
-            'description': 'Subjective and emotionally negative',
+            'description': 'Subjective content expressing negative emotions or opinions',
             'stop': True
         },
         'POSITIVE': {
             'path': 'POSITIVE',
-            'description': 'Subjective and emotionally positive',
+            'description': 'Subjective content expressing positive emotions or opinions',
             'stop': True
         }
     }
