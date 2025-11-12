@@ -124,17 +124,24 @@
 
 .word-cloud-container {
     height: 400px;
+    min-height: 400px;
+    width: 100%;
+    min-width: 300px;
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     border-radius: 0.5rem;
     position: relative;
     overflow: hidden;
     border: 2px solid #dee2e6;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: block;
 }
 
 /* Word cloud styling */
 .word-cloud-container canvas {
     border-radius: 0.5rem;
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
 }
 
 .word-cloud-container:hover {
@@ -351,51 +358,80 @@ function createTokenHeatmap() {
 
 // 2. Word Cloud - Attractive and Large
 function createWordCloud() {
+    const container = document.getElementById('wordCloud');
+    if (!container) {
+        console.error('Word cloud container not found');
+        return;
+    }
+    
+    // Clear the container completely before rendering
+    container.innerHTML = '';
+    
     const tokens = analyzeTextTokens(analysisData.text);
     const wordCloudData = createWordCloudData(tokens);
     
-    // Enhanced word cloud with better colors and sizing
-    const words = wordCloudData.map(item => [
-        item.text, 
-        item.weight * 2, // Increase weight for larger words
-        item.sentiment === 'positive' ? '#27AE60' : 
-        item.sentiment === 'negative' ? '#E74C3C' : '#95A5A6'
-    ]);
-    
-    if (words.length > 0) {
-        WordCloud(document.getElementById('wordCloud'), {
-            list: words,
-            weightFactor: 3, // Increased for larger words
-            fontFamily: 'Impact, Arial Black, sans-serif',
-            color: function(word, weight, fontSize, distance, theta) {
-                // Dynamic color based on sentiment
-                const wordData = words.find(w => w[0] === word);
-                return wordData ? wordData[2] : '#95A5A6';
-            },
-            rotateRatio: 0.2, // Less rotation for better readability
-            rotationAngles: [-30, 0, 30], // Reduced rotation angles
-            gridSize: 4, // Smaller grid for tighter packing
-            drawOutOfBound: false,
-            shrinkToFit: true,
-            backgroundColor: 'transparent',
-            minFontSize: 16, // Larger minimum font size
-            maxFontSize: 80, // Much larger maximum font size
-            ellipticity: 0.8, // Slightly elliptical for better appearance
-            hover: function(item, dimension, event) {
-                // Add hover effect
-                event.target.style.transform = 'scale(1.1)';
-                event.target.style.transition = 'transform 0.3s ease';
-            },
-            click: function(item, dimension, event) {
-                console.log('Word clicked:', item[0]);
-            }
-        });
-    } else {
-        document.getElementById('wordCloud').innerHTML = `
+    if (wordCloudData.length === 0) {
+        container.innerHTML = `
             <div class="d-flex align-items-center justify-content-center h-100">
                 <div class="text-center">
                     <i class="fas fa-cloud fa-3x text-muted mb-3"></i>
                     <p class="text-muted mb-0">No significant words found for word cloud</p>
+                </div>
+            </div>
+        `;
+        return;
+    }
+    
+    // Create a mapping of words to colors for the color function
+    const wordColorMap = {};
+    wordCloudData.forEach(item => {
+        wordColorMap[item.text] = item.sentiment === 'positive' ? '#27AE60' : 
+                                   item.sentiment === 'negative' ? '#E74C3C' : '#95A5A6';
+    });
+    
+    // Enhanced word cloud with better colors and sizing
+    // Format: [word, weight] - wordcloud2.js expects this format
+    const words = wordCloudData.map(item => [item.text, item.weight]);
+    
+    try {
+        // Ensure container has proper dimensions
+        const containerRect = container.getBoundingClientRect();
+        if (containerRect.width === 0 || containerRect.height === 0) {
+            console.warn('Word cloud container has zero dimensions, using default');
+        }
+        
+        WordCloud(container, {
+            list: words,
+            weightFactor: function(size) {
+                return Math.pow(size, 0.5) * 8; // Better scaling
+            },
+            fontFamily: 'Impact, Arial Black, sans-serif',
+            color: function(word, weight, fontSize, distance, theta) {
+                // Use the color map we created
+                return wordColorMap[word] || '#95A5A6';
+            },
+            rotateRatio: 0.2, // Less rotation for better readability
+            rotationAngles: [-30, 0, 30], // Reduced rotation angles
+            gridSize: Math.round(16 * containerRect.width / 1024), // Responsive grid size
+            drawOutOfBound: false,
+            shrinkToFit: true,
+            backgroundColor: 'transparent',
+            minSize: 12, // Minimum font size
+            wait: 0, // Don't wait, render immediately
+            abortThreshold: 250, // Abort if takes too long
+            abort: function() {
+                console.warn('Word cloud rendering aborted');
+            }
+        });
+        
+        console.log('Word cloud rendered successfully with', words.length, 'words');
+    } catch (error) {
+        console.error('Error rendering word cloud:', error);
+        container.innerHTML = `
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                    <p class="text-muted mb-0">Error rendering word cloud. Please try again.</p>
                 </div>
             </div>
         `;
@@ -472,7 +508,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Wait for WordCloud library to load if needed
     function initializeWordCloud() {
+        const container = document.getElementById('wordCloud');
+        if (!container) {
+            console.error('Word cloud container not found');
+            return;
+        }
+        
         if (typeof WordCloud !== 'undefined') {
+            // Ensure container is visible and has dimensions
+            const containerRect = container.getBoundingClientRect();
+            if (containerRect.width === 0 || containerRect.height === 0) {
+                // Wait a bit more for layout to settle
+                setTimeout(initializeWordCloud, 200);
+                return;
+            }
+            
             try {
                 createWordCloud();
             } catch (error) {
@@ -484,8 +534,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Initialize word cloud
-    initializeWordCloud();
+    // Initialize word cloud with a small delay to ensure DOM is ready
+    setTimeout(initializeWordCloud, 100);
     
     // Initialize flow diagram
     try {
