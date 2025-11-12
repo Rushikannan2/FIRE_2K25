@@ -139,7 +139,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    BASE_DIR / 'assets',  # Path object works fine in Django
+    os.path.join(BASE_DIR, 'assets'),
 ]
 
 # Ensure static files finders are configured
