@@ -130,7 +130,7 @@
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     border-radius: 0.5rem;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     border: 2px solid #dee2e6;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     display: block;
@@ -141,7 +141,9 @@
     border-radius: 0.5rem;
     width: 100% !important;
     height: 100% !important;
-    display: block;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .word-cloud-container:hover {
@@ -397,13 +399,15 @@ function createWordCloud() {
         // Ensure container has proper dimensions
         const containerRect = container.getBoundingClientRect();
         if (containerRect.width === 0 || containerRect.height === 0) {
-            console.warn('Word cloud container has zero dimensions, using default');
+            console.warn('Word cloud container has zero dimensions, retrying...');
+            setTimeout(createWordCloud, 200);
+            return;
         }
         
         WordCloud(container, {
             list: words,
             weightFactor: function(size) {
-                return Math.pow(size, 0.5) * 8; // Better scaling
+                return Math.pow(size, 0.5) * 10; // Better scaling for visibility
             },
             fontFamily: 'Impact, Arial Black, sans-serif',
             color: function(word, weight, fontSize, distance, theta) {
@@ -412,17 +416,25 @@ function createWordCloud() {
             },
             rotateRatio: 0.2, // Less rotation for better readability
             rotationAngles: [-30, 0, 30], // Reduced rotation angles
-            gridSize: Math.round(16 * containerRect.width / 1024), // Responsive grid size
+            gridSize: Math.max(4, Math.round(16 * containerRect.width / 1024)), // Responsive grid size
             drawOutOfBound: false,
             shrinkToFit: true,
             backgroundColor: 'transparent',
-            minSize: 12, // Minimum font size
+            minSize: 14, // Minimum font size for better visibility
             wait: 0, // Don't wait, render immediately
             abortThreshold: 250, // Abort if takes too long
             abort: function() {
                 console.warn('Word cloud rendering aborted');
             }
         });
+        
+        // Ensure canvas is visible
+        const canvas = container.querySelector('canvas');
+        if (canvas) {
+            canvas.style.visibility = 'visible';
+            canvas.style.opacity = '1';
+            canvas.style.display = 'block';
+        }
         
         console.log('Word cloud rendered successfully with', words.length, 'words');
     } catch (error) {
