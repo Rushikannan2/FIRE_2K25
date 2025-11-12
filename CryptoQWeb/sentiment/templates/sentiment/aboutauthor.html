@@ -3,6 +3,82 @@
 
 {% block title %}About Author - CryptoQ Sentiment Analyzer{% endblock %}
 
+{% block extra_css %}
+<style>
+    /* Social Media Buttons Styling */
+    .social-btn-container {
+        padding: 15px !important;
+        background-color: #f8f9fa !important;
+        border-radius: 12px !important;
+        border: 2px solid #dee2e6 !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .social-btn-linkedin {
+        background-color: #0077b5 !important;
+        color: #ffffff !important;
+        border: 2px solid #0077b5 !important;
+        box-shadow: 0 4px 6px rgba(0, 119, 181, 0.3) !important;
+    }
+    
+    .social-btn-linkedin:hover {
+        background-color: #005885 !important;
+        border-color: #005885 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 12px rgba(0, 119, 181, 0.4) !important;
+    }
+    
+    .social-btn-medium {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        border: 2px solid #000000 !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .social-btn-medium:hover {
+        background-color: #333333 !important;
+        border-color: #333333 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4) !important;
+    }
+    
+    .social-btn-github {
+        background-color: #24292e !important;
+        color: #ffffff !important;
+        border: 2px solid #24292e !important;
+        box-shadow: 0 4px 6px rgba(36, 41, 46, 0.3) !important;
+    }
+    
+    .social-btn-github:hover {
+        background-color: #1a1e22 !important;
+        border-color: #1a1e22 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 12px rgba(36, 41, 46, 0.4) !important;
+    }
+    
+    .social-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        transition: all 0.3s ease !important;
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+    }
+    
+    .social-btn i {
+        font-size: 1.2rem !important;
+        color: #ffffff !important;
+    }
+    
+    .social-btn span {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="col-12">
@@ -44,34 +120,31 @@
                                 <i class="fas fa-user me-2"></i>VT RushiKannan
                             </h3>
                             <div class="mb-4">
-                                <h5 class="text-secondary mb-3">
+                                <h5 class="text-secondary mb-3" style="color: #495057 !important; font-weight: 600 !important;">
                                     <i class="fas fa-external-link-alt me-2"></i>Connect With Me
                                 </h5>
-                                <div class="d-flex flex-wrap gap-3 align-items-center" style="display: flex !important; visibility: visible !important;">
+                                <div class="d-flex flex-wrap gap-3 align-items-center social-btn-container">
                                     <a href="https://www.linkedin.com/in/vt--rushikannan/"
                                        target="_blank"
                                        rel="noopener noreferrer"
-                                       class="btn btn-primary btn-lg px-4"
-                                       aria-label="LinkedIn Profile"
-                                       style="display: inline-flex !important; align-items: center; gap: 8px;">
+                                       class="social-btn social-btn-linkedin"
+                                       aria-label="LinkedIn Profile">
                                         <i class="fab fa-linkedin"></i>
                                         <span>LinkedIn</span>
                                     </a>
                                     <a href="https://medium.com/@kannan.rushi05"
                                        target="_blank"
                                        rel="noopener noreferrer"
-                                       class="btn btn-dark btn-lg px-4"
-                                       aria-label="Medium Articles"
-                                       style="display: inline-flex !important; align-items: center; gap: 8px;">
+                                       class="social-btn social-btn-medium"
+                                       aria-label="Medium Articles">
                                         <i class="fab fa-medium"></i>
                                         <span>Medium</span>
                                     </a>
                                     <a href="https://github.com/Rushikannan2"
                                        target="_blank"
                                        rel="noopener noreferrer"
-                                       class="btn btn-secondary btn-lg px-4"
-                                       aria-label="GitHub Profile"
-                                       style="display: inline-flex !important; align-items: center; gap: 8px;">
+                                       class="social-btn social-btn-github"
+                                       aria-label="GitHub Profile">
                                         <i class="fab fa-github"></i>
                                         <span>GitHub</span>
                                     </a>
