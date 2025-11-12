@@ -5,6 +5,7 @@ app_name = 'sentiment'
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('health/', views.health_check, name='health_check'),
     path('test/', views.test_page, name='test'),
     path('analyze/', views.analyze_sentiment_form, name='analyze_form'),
     path('api/analyze/', views.analyze_sentiment, name='analyze_api'),

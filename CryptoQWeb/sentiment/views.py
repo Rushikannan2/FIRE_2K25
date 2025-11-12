@@ -16,16 +16,27 @@ logger = logging.getLogger(__name__)
 analyzer = None
 
 def get_analyzer():
-    """Get or initialize the sentiment analyzer"""
+    """Get or initialize the sentiment analyzer (lazy loading - doesn't block startup)"""
     global analyzer
     if analyzer is None:
         try:
             # Use relative path for Render deployment
+            # Don't block if models aren't ready - will use fallback analysis
             analyzer = SentimentAnalyzer(models_dir="models")
+            logger.info("Sentiment analyzer initialized successfully")
         except Exception as e:
-            logger.error(f"Failed to initialize sentiment analyzer: {e}")
+            logger.warning(f"Sentiment analyzer not available (models may still be downloading): {e}")
+            logger.info("Application will use fallback rule-based analysis until models are ready")
             analyzer = None
     return analyzer
+
+def health_check(request):
+    """Health check endpoint for Render deployment"""
+    return JsonResponse({
+        'status': 'healthy',
+        'service': 'CryptoQ Sentiment Analyzer',
+        'version': '1.0.0'
+    })
 
 def home(request):
     """Home page with sentiment analysis form"""
