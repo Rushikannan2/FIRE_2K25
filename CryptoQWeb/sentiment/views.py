@@ -5,6 +5,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from .models import SentimentAnalysis
 from .ai_analyzer import SentimentAnalyzer
+from .classification_formatter import format_classification_path
 import json
 import logging
 
@@ -132,6 +133,16 @@ def analyze_sentiment_form(request):
             # Perform analysis
             results = analyzer_instance.analyze(text)
             
+            # Format classification path
+            classification_info = format_classification_path(
+                results.get('level1_prediction'),
+                results.get('level2_prediction'),
+                results.get('level3_prediction')
+            )
+            results['classification_path'] = classification_info['full_path']
+            results['classification_description'] = classification_info['description']
+            results['classification_input_summary'] = classification_info['input_summary']
+            
             # Save to database
             sentiment_record = SentimentAnalysis.objects.create(
                 text=text,
@@ -153,7 +164,8 @@ def analyze_sentiment_form(request):
                 'analysis_result': results,
                 'analysis_id': sentiment_record.id,
                 'original_text': text,
-                'selected_platform': platform
+                'selected_platform': platform,
+                'classification_info': classification_info
             })
             
         except Exception as e:
@@ -172,7 +184,16 @@ def analysis_detail(request, analysis_id):
     """View detailed analysis results"""
     try:
         analysis = SentimentAnalysis.objects.get(id=analysis_id)
-        return render(request, 'sentiment/detail.html', {'analysis': analysis})
+        # Format classification path
+        classification_info = format_classification_path(
+            analysis.level1_prediction,
+            analysis.level2_prediction,
+            analysis.level3_prediction
+        )
+        return render(request, 'sentiment/detail.html', {
+            'analysis': analysis,
+            'classification_info': classification_info
+        })
     except SentimentAnalysis.DoesNotExist:
         messages.error(request, 'Analysis not found.')
         return redirect('sentiment:home')
