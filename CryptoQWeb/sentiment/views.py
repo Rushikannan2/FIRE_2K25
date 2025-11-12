@@ -112,17 +112,22 @@ def analyze_sentiment_form(request):
     """Handle form-based sentiment analysis"""
     if request.method == 'POST':
         text = request.POST.get('text', '').strip()
+        platform = request.POST.get('platform', '').strip()
+        
+        if not platform:
+            messages.error(request, 'Please select a platform before analyzing.')
+            return render(request, 'sentiment/home.html')
         
         if not text:
             messages.error(request, 'Please enter some text to analyze.')
-            return render(request, 'sentiment/home.html')
+            return render(request, 'sentiment/home.html', {'selected_platform': platform})
         
         try:
             # Get analyzer
             analyzer_instance = get_analyzer()
             if analyzer_instance is None:
                 messages.error(request, 'Sentiment analyzer is not available.')
-                return render(request, 'sentiment/home.html')
+                return render(request, 'sentiment/home.html', {'selected_platform': platform})
             
             # Perform analysis
             results = analyzer_instance.analyze(text)
@@ -130,6 +135,7 @@ def analyze_sentiment_form(request):
             # Save to database
             sentiment_record = SentimentAnalysis.objects.create(
                 text=text,
+                platform=platform,
                 level1_prediction=results.get('level1_prediction'),
                 level2_prediction=results.get('level2_prediction'),
                 level3_prediction=results.get('level3_prediction'),
@@ -146,13 +152,14 @@ def analyze_sentiment_form(request):
             return render(request, 'sentiment/home.html', {
                 'analysis_result': results,
                 'analysis_id': sentiment_record.id,
-                'original_text': text
+                'original_text': text,
+                'selected_platform': platform
             })
             
         except Exception as e:
             logger.error(f"Error in sentiment analysis: {e}")
             messages.error(request, f'Analysis failed: {str(e)}')
-            return render(request, 'sentiment/home.html')
+            return render(request, 'sentiment/home.html', {'selected_platform': platform})
     
     return render(request, 'sentiment/home.html')
 
@@ -185,6 +192,11 @@ def edit_analysis(request, analysis_id):
         
         if request.method == 'POST':
             new_text = request.POST.get('text', '').strip()
+            platform = request.POST.get('platform', '').strip()
+            
+            if not platform:
+                messages.error(request, 'Please select a platform.')
+                return render(request, 'sentiment/edit_analysis.html', {'analysis': analysis})
             
             if not new_text:
                 messages.error(request, 'Please enter some text to analyze.')
@@ -202,6 +214,7 @@ def edit_analysis(request, analysis_id):
                 
                 # Update the record
                 analysis.text = new_text
+                analysis.platform = platform
                 analysis.level1_prediction = results.get('level1_prediction')
                 analysis.level2_prediction = results.get('level2_prediction')
                 analysis.level3_prediction = results.get('level3_prediction')

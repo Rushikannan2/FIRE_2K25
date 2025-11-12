@@ -65,6 +65,28 @@
                 <form method="post" action="{% url 'sentiment:analyze_form' %}" id="sentimentForm">
                     {% csrf_token %}
                     <div class="mb-4">
+                        <label for="platformSelect" class="form-label fw-bold">
+                            <i class="fas fa-globe me-2"></i>Select Platform <span class="text-danger">*</span>
+                        </label>
+                        <select 
+                            class="form-select form-select-lg" 
+                            id="platformSelect" 
+                            name="platform" 
+                            required
+                            style="font-size: 1rem; padding: 0.75rem;"
+                        >
+                            <option value="">-- Select a platform --</option>
+                            <option value="REDDIT" {% if selected_platform == 'REDDIT' %}selected{% endif %}>Reddit</option>
+                            <option value="TWITTER" {% if selected_platform == 'TWITTER' %}selected{% endif %}>Twitter</option>
+                            <option value="YOUTUBE" {% if selected_platform == 'YOUTUBE' %}selected{% endif %}>YouTube</option>
+                        </select>
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Please select the platform where this text originated from.
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
                         <label for="textInput" class="form-label fw-bold">
                             <i class="fas fa-edit me-2"></i>Text to Analyze
                         </label>
@@ -335,6 +357,25 @@
 {% block extra_js %}
 <script>
 document.getElementById('sentimentForm').addEventListener('submit', function(e) {
+    const platformSelect = document.getElementById('platformSelect');
+    const textInput = document.getElementById('textInput');
+    
+    // Validate platform selection
+    if (!platformSelect.value) {
+        e.preventDefault();
+        alert('Please select a platform before analyzing.');
+        platformSelect.focus();
+        return false;
+    }
+    
+    // Validate text input
+    if (!textInput.value.trim()) {
+        e.preventDefault();
+        alert('Please enter some text to analyze.');
+        textInput.focus();
+        return false;
+    }
+    
     const btn = document.getElementById('analyzeBtn');
     btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyzing...';
     btn.disabled = true;

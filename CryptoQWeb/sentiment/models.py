@@ -4,7 +4,14 @@ from django.utils import timezone
 class SentimentAnalysis(models.Model):
     """Model to store sentiment analysis results"""
     
+    PLATFORM_CHOICES = [
+        ('REDDIT', 'Reddit'),
+        ('TWITTER', 'Twitter'),
+        ('YOUTUBE', 'YouTube'),
+    ]
+    
     text = models.TextField(help_text="The input text to analyze")
+    platform = models.CharField(max_length=20, choices=PLATFORM_CHOICES, default='REDDIT', help_text="Platform source of the text")
     level1_prediction = models.CharField(max_length=20, choices=[
         ('NOISE', 'Noise'),
         ('OBJECTIVE', 'Objective'),

@@ -28,6 +28,28 @@
                 <form method="post">
                     {% csrf_token %}
                     <div class="mb-4">
+                        <label for="platformSelect" class="form-label fw-bold">
+                            <i class="fas fa-globe me-2"></i>Select Platform <span class="text-danger">*</span>
+                        </label>
+                        <select 
+                            class="form-select form-select-lg" 
+                            id="platformSelect" 
+                            name="platform" 
+                            required
+                            style="font-size: 1rem; padding: 0.75rem;"
+                        >
+                            <option value="">-- Select a platform --</option>
+                            <option value="REDDIT" {% if analysis.platform == 'REDDIT' %}selected{% endif %}>Reddit</option>
+                            <option value="TWITTER" {% if analysis.platform == 'TWITTER' %}selected{% endif %}>Twitter</option>
+                            <option value="YOUTUBE" {% if analysis.platform == 'YOUTUBE' %}selected{% endif %}>YouTube</option>
+                        </select>
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Please select the platform where this text originated from.
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
                         <label for="textInput" class="form-label fw-bold">
                             <i class="fas fa-edit me-2"></i>Edit Text for Re-analysis
                         </label>
