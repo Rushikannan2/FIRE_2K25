@@ -191,10 +191,13 @@ if 'whitenoise.middleware.WhiteNoiseMiddleware' in MIDDLEWARE:
         WHITENOISE_AUTOREFRESH = DEBUG
         # Add max-age for static files caching (1 year for production, no cache for dev)
         WHITENOISE_MAX_AGE = 31536000 if not DEBUG else 0
-        # WhiteNoise automatically uses STATIC_ROOT - don't override with WHITENOISE_ROOT
-        # This ensures images are served from staticfiles/ directory after collectstatic
+        # Explicitly set root to STATIC_ROOT for production
+        # This is critical - WhiteNoise must know where to find collected static files
+        WHITENOISE_ROOT = STATIC_ROOT
         # Enable automatic index files (if any)
         WHITENOISE_INDEX_FILE = False
+        # Allow all file extensions
+        WHITENOISE_ALLOW_ALL_ORIGINS = True
     except ImportError:
         pass
 
