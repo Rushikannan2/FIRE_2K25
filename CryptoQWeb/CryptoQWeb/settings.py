@@ -142,6 +142,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'assets'),
 ]
 
+# Ensure staticfiles directory exists
+Path(STATIC_ROOT).mkdir(parents=True, exist_ok=True)
+
 # Ensure static files finders are configured
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -170,14 +173,15 @@ if 'whitenoise.middleware.WhiteNoiseMiddleware' in MIDDLEWARE:
         staticfiles_path = os.path.join(BASE_DIR, 'staticfiles')
         # Don't fail if manifest is missing - serve files directly
         WHITENOISE_MANIFEST_STRICT = False
-        # In production (after collectstatic), serve from STATIC_ROOT
-        # In development, use finders to dynamically find files
-        WHITENOISE_USE_FINDERS = True  # Always use finders to find files from STATICFILES_DIRS
+        # In production: serve from STATIC_ROOT (after collectstatic)
+        # In development: use finders to dynamically find files
+        WHITENOISE_USE_FINDERS = DEBUG  # Use finders only in development
         # Only auto-refresh in development
         WHITENOISE_AUTOREFRESH = DEBUG
         # Add max-age for static files caching (1 year for production, no cache for dev)
         WHITENOISE_MAX_AGE = 31536000 if not DEBUG else 0
         # Root directory for static files (STATIC_ROOT after collectstatic)
+        # This is critical - WhiteNoise will serve from this directory in production
         WHITENOISE_ROOT = staticfiles_path
         # Enable automatic index files (if any)
         WHITENOISE_INDEX_FILE = False
