@@ -30,14 +30,14 @@ urlpatterns = [
 # But we also add a fallback for production in case WhiteNoise fails
 from django.contrib.staticfiles.views import serve as static_serve
 from django.views.static import serve as media_serve
+from django.conf.urls.static import static
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 else:
-    # Production fallback: serve static files directly if WhiteNoise doesn't work
-    # This ensures images are always accessible
-    urlpatterns += [
-        path(f'{settings.STATIC_URL}<path:path>', static_serve, {'insecure': True}),
-    ]
+    # Production fallback: serve static files directly from STATIC_ROOT if WhiteNoise doesn't work
+    # This ensures images are always accessible even if WhiteNoise fails
+    # Use STATIC_ROOT (where collectstatic puts files) not STATICFILES_DIRS
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
