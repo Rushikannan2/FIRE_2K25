@@ -172,7 +172,7 @@ if 'whitenoise.middleware.WhiteNoiseMiddleware' in MIDDLEWARE:
         WHITENOISE_MANIFEST_STRICT = False
         # In production (after collectstatic), serve from STATIC_ROOT
         # In development, use finders to dynamically find files
-        WHITENOISE_USE_FINDERS = DEBUG  # Only use finders in development
+        WHITENOISE_USE_FINDERS = True  # Always use finders to find files from STATICFILES_DIRS
         # Only auto-refresh in development
         WHITENOISE_AUTOREFRESH = DEBUG
         # Add max-age for static files caching (1 year for production, no cache for dev)
