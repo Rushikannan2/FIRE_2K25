@@ -201,11 +201,7 @@ This project is part of the CryptoQ Sentiment Analysis system for FIRE 2025.
 - **IIIT Kottayam** - Summer Research Internship Program
 - **VT RushiKannan** - Research Intern
 
-## 📞 Support
 
-For support and questions:
-- Create an issue on GitHub
-- Contact: [Your Email]
 
 ---
 
