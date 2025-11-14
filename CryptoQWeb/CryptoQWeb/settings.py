@@ -16,6 +16,8 @@ import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+# Convert to string for compatibility with os.path.join
+BASE_DIR_STR = str(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -137,13 +139,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Use Path for consistency, convert to string where needed
+STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'assets'),
+    str(BASE_DIR / 'assets'),
 ]
+
+# Log static files configuration for debugging (only in development)
+if DEBUG:
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(f"STATIC_ROOT: {STATIC_ROOT}")
+    logger.info(f"STATICFILES_DIRS: {STATICFILES_DIRS}")
+    logger.info(f"STATIC_URL: {STATIC_URL}")
 
 # Ensure staticfiles directory exists
 Path(STATIC_ROOT).mkdir(parents=True, exist_ok=True)
+# Ensure assets directory exists (for development)
+Path(BASE_DIR / 'assets').mkdir(parents=True, exist_ok=True)
 
 # Ensure static files finders are configured
 STATICFILES_FINDERS = [
@@ -169,8 +182,6 @@ except ImportError:
 if 'whitenoise.middleware.WhiteNoiseMiddleware' in MIDDLEWARE:
     try:
         import whitenoise
-        # Set root to staticfiles directory (absolute path for reliability)
-        staticfiles_path = os.path.join(BASE_DIR, 'staticfiles')
         # Don't fail if manifest is missing - serve files directly
         WHITENOISE_MANIFEST_STRICT = False
         # In production: serve from STATIC_ROOT (after collectstatic)
@@ -180,8 +191,8 @@ if 'whitenoise.middleware.WhiteNoiseMiddleware' in MIDDLEWARE:
         WHITENOISE_AUTOREFRESH = DEBUG
         # Add max-age for static files caching (1 year for production, no cache for dev)
         WHITENOISE_MAX_AGE = 31536000 if not DEBUG else 0
-        # Root directory for static files - WhiteNoise automatically uses STATIC_ROOT
-        # Don't set WHITENOISE_ROOT - let it use STATIC_ROOT from settings above
+        # WhiteNoise automatically uses STATIC_ROOT - don't override with WHITENOISE_ROOT
+        # This ensures images are served from staticfiles/ directory after collectstatic
         # Enable automatic index files (if any)
         WHITENOISE_INDEX_FILE = False
     except ImportError:
