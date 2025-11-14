@@ -130,20 +130,25 @@
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     border-radius: 0.5rem;
     position: relative;
-    overflow: visible;
+    overflow: hidden;
     border: 2px solid #dee2e6;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Word cloud styling */
 .word-cloud-container canvas {
     border-radius: 0.5rem;
-    width: 100% !important;
-    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
+    margin: auto !important;
 }
 
 .word-cloud-container:hover {
@@ -366,6 +371,22 @@ function createWordCloud() {
         return;
     }
     
+    // Check if WordCloud library is loaded
+    if (typeof WordCloud === 'undefined') {
+        console.error('WordCloud library not loaded');
+        container.innerHTML = `
+            <div class="d-flex align-items-center justify-content-center h-100">
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                    <p class="text-muted mb-0">Word cloud library is loading. Please wait...</p>
+                </div>
+            </div>
+        `;
+        // Retry after a delay
+        setTimeout(createWordCloud, 500);
+        return;
+    }
+    
     // Clear the container completely before rendering
     container.innerHTML = '';
     
@@ -404,10 +425,14 @@ function createWordCloud() {
             return;
         }
         
+        // Set explicit dimensions for the container
+        const width = containerRect.width || 800;
+        const height = containerRect.height || 400;
+        
         WordCloud(container, {
             list: words,
             weightFactor: function(size) {
-                return Math.pow(size, 0.5) * 10; // Better scaling for visibility
+                return Math.pow(size, 0.6) * 15; // Better scaling for visibility
             },
             fontFamily: 'Impact, Arial Black, sans-serif',
             color: function(word, weight, fontSize, distance, theta) {
@@ -416,24 +441,28 @@ function createWordCloud() {
             },
             rotateRatio: 0.2, // Less rotation for better readability
             rotationAngles: [-30, 0, 30], // Reduced rotation angles
-            gridSize: Math.max(4, Math.round(16 * containerRect.width / 1024)), // Responsive grid size
+            gridSize: Math.max(4, Math.round(16 * width / 1024)), // Responsive grid size
             drawOutOfBound: false,
             shrinkToFit: true,
             backgroundColor: 'transparent',
-            minSize: 14, // Minimum font size for better visibility
+            minSize: 16, // Minimum font size for better visibility
             wait: 0, // Don't wait, render immediately
-            abortThreshold: 250, // Abort if takes too long
+            abortThreshold: 500, // Increased threshold for better rendering
             abort: function() {
                 console.warn('Word cloud rendering aborted');
             }
         });
         
-        // Ensure canvas is visible
+        // Ensure canvas is visible and properly sized
         const canvas = container.querySelector('canvas');
         if (canvas) {
             canvas.style.visibility = 'visible';
             canvas.style.opacity = '1';
             canvas.style.display = 'block';
+            canvas.style.maxWidth = '100%';
+            canvas.style.maxHeight = '100%';
+            canvas.style.width = 'auto';
+            canvas.style.height = 'auto';
         }
         
         console.log('Word cloud rendered successfully with', words.length, 'words');
@@ -443,7 +472,7 @@ function createWordCloud() {
             <div class="d-flex align-items-center justify-content-center h-100">
                 <div class="text-center">
                     <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
-                    <p class="text-muted mb-0">Error rendering word cloud. Please try again.</p>
+                    <p class="text-muted mb-0">Error rendering word cloud: ${error.message}</p>
                 </div>
             </div>
         `;
@@ -526,15 +555,15 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Ensure container is visible and has dimensions
+        const containerRect = container.getBoundingClientRect();
+        if (containerRect.width === 0 || containerRect.height === 0) {
+            // Wait a bit more for layout to settle
+            setTimeout(initializeWordCloud, 300);
+            return;
+        }
+        
         if (typeof WordCloud !== 'undefined') {
-            // Ensure container is visible and has dimensions
-            const containerRect = container.getBoundingClientRect();
-            if (containerRect.width === 0 || containerRect.height === 0) {
-                // Wait a bit more for layout to settle
-                setTimeout(initializeWordCloud, 200);
-                return;
-            }
-            
             try {
                 createWordCloud();
             } catch (error) {
@@ -542,12 +571,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } else {
             // Retry after a short delay if library not loaded
-            setTimeout(initializeWordCloud, 100);
+            console.log('WordCloud library not yet loaded, retrying...');
+            setTimeout(initializeWordCloud, 300);
         }
     }
     
-    // Initialize word cloud with a small delay to ensure DOM is ready
-    setTimeout(initializeWordCloud, 100);
+    // Initialize word cloud with a delay to ensure DOM and library are ready
+    // Use multiple strategies: immediate check, after DOMContentLoaded, and after window load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initializeWordCloud, 500);
+        });
+    } else {
+        setTimeout(initializeWordCloud, 500);
+    }
+    
+    // Also try after window load as a fallback
+    window.addEventListener('load', function() {
+        setTimeout(initializeWordCloud, 300);
+    });
     
     // Initialize flow diagram
     try {
@@ -558,4 +600,5 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('Visualizations initialized');
 });
+</script>
 </script>
