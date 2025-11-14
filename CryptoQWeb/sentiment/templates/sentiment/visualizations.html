@@ -127,15 +127,17 @@
     min-height: 400px;
     width: 100%;
     min-width: 300px;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    background: #ffffff !important;
+    background-image: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
     border-radius: 0.5rem;
     position: relative;
-    overflow: hidden;
+    overflow: visible !important;
     border: 2px solid #dee2e6;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
+    padding: 20px;
 }
 
 /* Word cloud styling */
@@ -143,12 +145,14 @@
     border-radius: 0.5rem;
     max-width: 100% !important;
     max-height: 100% !important;
-    width: auto !important;
-    height: auto !important;
+    width: 100% !important;
+    height: 100% !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
     margin: auto !important;
+    background: transparent !important;
+    background-color: transparent !important;
 }
 
 .word-cloud-container:hover {
@@ -432,12 +436,12 @@ function createWordCloud() {
         WordCloud(container, {
             list: words,
             weightFactor: function(size) {
-                return Math.pow(size, 0.6) * 15; // Better scaling for visibility
+                return Math.pow(size, 0.6) * 20; // Increased scaling for better visibility
             },
             fontFamily: 'Impact, Arial Black, sans-serif',
             color: function(word, weight, fontSize, distance, theta) {
                 // Use the color map we created
-                return wordColorMap[word] || '#95A5A6';
+                return wordColorMap[word] || '#2c3e50';
             },
             rotateRatio: 0.2, // Less rotation for better readability
             rotationAngles: [-30, 0, 30], // Reduced rotation angles
@@ -445,24 +449,33 @@ function createWordCloud() {
             drawOutOfBound: false,
             shrinkToFit: true,
             backgroundColor: 'transparent',
-            minSize: 16, // Minimum font size for better visibility
+            minSize: 20, // Increased minimum font size for better visibility
+            maxSize: 80, // Maximum font size
             wait: 0, // Don't wait, render immediately
-            abortThreshold: 500, // Increased threshold for better rendering
+            abortThreshold: 1000, // Increased threshold for better rendering
             abort: function() {
                 console.warn('Word cloud rendering aborted');
             }
         });
         
-        // Ensure canvas is visible and properly sized
+        // Ensure canvas is visible and properly sized with transparent background
         const canvas = container.querySelector('canvas');
         if (canvas) {
             canvas.style.visibility = 'visible';
             canvas.style.opacity = '1';
             canvas.style.display = 'block';
-            canvas.style.maxWidth = '100%';
-            canvas.style.maxHeight = '100%';
-            canvas.style.width = 'auto';
-            canvas.style.height = 'auto';
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.style.background = 'transparent';
+            canvas.style.backgroundColor = 'transparent';
+            canvas.style.position = 'relative';
+            canvas.style.zIndex = '1';
+            
+            // Force canvas to clear any black background
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
         }
         
         console.log('Word cloud rendered successfully with', words.length, 'words');
@@ -578,18 +591,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize word cloud with a delay to ensure DOM and library are ready
     // Use multiple strategies: immediate check, after DOMContentLoaded, and after window load
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
+    function startWordCloudInit() {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(initializeWordCloud, 800);
+            });
+        } else {
+            setTimeout(initializeWordCloud, 800);
+        }
+        
+        // Also try after window load as a fallback
+        window.addEventListener('load', function() {
             setTimeout(initializeWordCloud, 500);
         });
-    } else {
-        setTimeout(initializeWordCloud, 500);
     }
     
-    // Also try after window load as a fallback
-    window.addEventListener('load', function() {
-        setTimeout(initializeWordCloud, 300);
-    });
+    // Start initialization
+    startWordCloudInit();
     
     // Initialize flow diagram
     try {
