@@ -1,0 +1,78 @@
+{% extends 'sentiment/base.html' %}
+{% load static %}
+
+{% block title %}Gallery — FIRE 2025 - CryptoQ Sentiment Analyzer{% endblock %}
+
+{% block extra_css %}
+<style>
+    .gallery-placeholder {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 12px;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 2rem;
+        border: 2px dashed #dee2e6;
+    }
+    
+    .gallery-icon {
+        font-size: 4rem;
+        color: #6c757d;
+        opacity: 0.5;
+        margin-bottom: 1.5rem;
+    }
+    
+    .gallery-text {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #6c757d;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 767.98px) {
+        .gallery-placeholder {
+            min-height: 300px;
+            padding: 2rem 1rem;
+        }
+        
+        .gallery-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .gallery-text {
+            font-size: 1rem;
+            padding: 0 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="row mt-4 mb-5">
+    <div class="col-12">
+        <div class="card shadow-lg border-0">
+            <div class="card-header gradient-bg text-white">
+                <h2 class="card-title mb-0">
+                    <i class="fas fa-images me-2"></i>Gallery — FIRE 2025 (IIT BHU, Varanasi)
+                </h2>
+            </div>
+            <div class="card-body p-4">
+                <div class="gallery-placeholder">
+                    <div>
+                        <i class="fas fa-camera gallery-icon"></i>
+                        <p class="gallery-text mb-0">
+                            Gallery will be updated after the FIRE 2025 presentation at IIT(BHU). Photos from the conference, presentation, and demo session will be uploaded here.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

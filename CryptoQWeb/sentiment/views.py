@@ -217,6 +217,10 @@ def about_us(request):
     """About Us page"""
     return render(request, 'sentiment/aboutus.html')
 
+def gallery(request):
+    """Gallery page for FIRE 2025"""
+    return render(request, 'sentiment/gallery.html')
+
 def edit_analysis(request, analysis_id):
     """Edit and re-analyze a sentiment analysis"""
     try:

@@ -15,4 +15,5 @@ urlpatterns = [
     path('delete/<int:analysis_id>/', views.delete_analysis, name='delete'),
     path('about-author/', views.about_author, name='about_author'),
     path('about-us/', views.about_us, name='about_us'),
+    path('gallery/', views.gallery, name='gallery'),
 ]
