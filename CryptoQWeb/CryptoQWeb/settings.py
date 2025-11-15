@@ -142,7 +142,7 @@ STATIC_URL = '/static/'
 # Use Path for consistency, convert to string where needed
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 STATICFILES_DIRS = [
-    str(BASE_DIR / 'assets'),
+    str(BASE_DIR / 'static'),
 ]
 
 # Log static files configuration for debugging (only in development)
@@ -155,8 +155,9 @@ if DEBUG:
 
 # Ensure staticfiles directory exists
 Path(STATIC_ROOT).mkdir(parents=True, exist_ok=True)
-# Ensure assets directory exists (for development)
-Path(BASE_DIR / 'assets').mkdir(parents=True, exist_ok=True)
+# Ensure static directory exists (for development)
+Path(BASE_DIR / 'static').mkdir(parents=True, exist_ok=True)
+Path(BASE_DIR / 'static' / 'images').mkdir(parents=True, exist_ok=True)
 
 # Ensure static files finders are configured
 STATICFILES_FINDERS = [
