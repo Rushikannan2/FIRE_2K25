@@ -32,6 +32,42 @@
         text-align: center;
     }
     
+    /* Gallery Image Styles - Same as IIIT Kottayam Certificate */
+    .gallery-image-container {
+        background: rgba(13,110,253,0.06);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .gallery-image-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    
+    .gallery-image-container img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        display: block !important;
+        visibility: visible !important;
+        margin: 0 auto;
+        border-radius: 14px;
+        box-shadow: 0 12px 36px rgba(0,0,0,0.28);
+        object-fit: contain;
+        border: 3px solid #0d6efd;
+        background-color: #ffffff0d;
+    }
+    
+    .gallery-caption {
+        color: #6c757d;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-top: 1rem;
+        text-align: center;
+    }
+    
     /* Mobile responsive */
     @media (max-width: 767.98px) {
         .gallery-placeholder {
@@ -48,6 +84,21 @@
             font-size: 1rem;
             padding: 0 1rem;
         }
+        
+        .gallery-image-container {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .gallery-image-container img {
+            border-radius: 12px;
+            border-width: 2px;
+        }
+        
+        .gallery-caption {
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+        }
     }
 </style>
 {% endblock %}
@@ -62,11 +113,74 @@
                 </h2>
             </div>
             <div class="card-body p-4">
-                <div class="gallery-placeholder">
+                <!-- Gallery Images Section -->
+                <!-- 
+                    TO ADD GALLERY PHOTOS:
+                    1. Place images in CryptoQWeb/assets/ folder (e.g., FIRE_2025_Photo1.jpg)
+                    2. Copy them to CryptoQWeb/static/images/ folder
+                    3. Add image blocks below following the same pattern as IIIT Kottayam certificate
+                    4. Use: {% static 'images/YourImageName.jpg' %}
+                -->
+                
+                <div class="row">
+                    <!-- Example Gallery Image 1 - Replace with your actual images -->
+                    <!-- 
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="gallery-image-container text-center">
+                            <picture>
+                                <source srcset="{% static 'images/FIRE_2025_Photo1.jpg' %}" type="image/jpeg">
+                                <img src="{% static 'images/FIRE_2025_Photo1.jpg' %}"
+                                     alt="FIRE 2025 Conference Photo" 
+                                     class="img-fluid rounded shadow-lg"
+                                     loading="lazy">
+                            </picture>
+                            <p class="gallery-caption">FIRE 2025 Conference - IIT BHU Varanasi</p>
+                        </div>
+                    </div>
+                    -->
+                    
+                    <!-- Example Gallery Image 2 -->
+                    <!-- 
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="gallery-image-container text-center">
+                            <picture>
+                                <source srcset="{% static 'images/FIRE_2025_Presentation.jpg' %}" type="image/jpeg">
+                                <img src="{% static 'images/FIRE_2025_Presentation.jpg' %}"
+                                     alt="FIRE 2025 Presentation" 
+                                     class="img-fluid rounded shadow-lg"
+                                     loading="lazy">
+                            </picture>
+                            <p class="gallery-caption">Presentation at FIRE 2025</p>
+                        </div>
+                    </div>
+                    -->
+                    
+                    <!-- Example Gallery Image 3 -->
+                    <!-- 
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="gallery-image-container text-center">
+                            <picture>
+                                <source srcset="{% static 'images/FIRE_2025_Demo.jpg' %}" type="image/jpeg">
+                                <img src="{% static 'images/FIRE_2025_Demo.jpg' %}"
+                                     alt="FIRE 2025 Demo Session" 
+                                     class="img-fluid rounded shadow-lg"
+                                     loading="lazy">
+                            </picture>
+                            <p class="gallery-caption">Demo Session at FIRE 2025</p>
+                        </div>
+                    </div>
+                    -->
+                </div>
+                
+                <!-- Placeholder (shown when no images are added yet) -->
+                <div class="gallery-placeholder" id="galleryPlaceholder">
                     <div>
                         <i class="fas fa-camera gallery-icon"></i>
                         <p class="gallery-text mb-0">
                             Gallery will be updated after the FIRE 2025 presentation at IIT(BHU). Photos from the conference, presentation, and demo session will be uploaded here.
+                        </p>
+                        <p class="gallery-text mt-3" style="font-size: 0.9rem; color: #6c757d;">
+                            <strong>To add photos:</strong> Place images in <code>CryptoQWeb/assets/</code>, copy to <code>CryptoQWeb/static/images/</code>, then uncomment the image blocks above.
                         </p>
                     </div>
                 </div>
