@@ -523,6 +523,397 @@
         .card-body {
             position: relative;
         }
+        
+        /* ============================================
+           MOBILE-FRIENDLY RESPONSIVE STYLES
+           Crystal Clear Text, Images & Visualizations
+           ============================================ */
+        
+        /* Base mobile styles - apply to all screen sizes */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        /* Mobile-first: Base styles for small screens */
+        @media (max-width: 767.98px) {
+            /* Typography - Crystal clear and readable */
+            body {
+                font-size: 16px;
+                line-height: 1.7;
+            }
+            
+            h1 {
+                font-size: 1.75rem !important;
+                line-height: 1.3 !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            h2 {
+                font-size: 1.5rem !important;
+                line-height: 1.3 !important;
+                margin-bottom: 0.875rem !important;
+            }
+            
+            h3 {
+                font-size: 1.25rem !important;
+                line-height: 1.4 !important;
+                margin-bottom: 0.75rem !important;
+            }
+            
+            h4 {
+                font-size: 1.1rem !important;
+                line-height: 1.4 !important;
+                margin-bottom: 0.625rem !important;
+            }
+            
+            h5 {
+                font-size: 1rem !important;
+                line-height: 1.4 !important;
+            }
+            
+            h6 {
+                font-size: 0.95rem !important;
+                line-height: 1.4 !important;
+            }
+            
+            p, .lead {
+                font-size: 1rem !important;
+                line-height: 1.7 !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .display-4 {
+                font-size: 2rem !important;
+                line-height: 1.2 !important;
+            }
+            
+            /* Container and spacing */
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            main.container {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+            
+            /* Hero section - mobile optimized */
+            .hero-section {
+                padding: 2rem 0 !important;
+                margin-bottom: 2rem !important;
+                border-radius: 15px !important;
+            }
+            
+            .hero-section h1 {
+                font-size: 1.75rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .hero-section .lead {
+                font-size: 1rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            /* Hero image - responsive and beautiful */
+            .hero-image {
+                min-height: 250px !important;
+                padding: 1rem !important;
+                margin-bottom: 1.5rem;
+            }
+            
+            .hero-image img {
+                max-width: 100% !important;
+                width: 100% !important;
+                height: auto !important;
+                border-radius: 12px !important;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.25) !important;
+            }
+            
+            /* Buttons - touch-friendly */
+            .btn {
+                font-size: 1rem !important;
+                padding: 0.75rem 1.5rem !important;
+                min-height: 44px; /* iOS touch target */
+                border-radius: 8px !important;
+                margin-bottom: 0.5rem;
+            }
+            
+            .btn-lg {
+                font-size: 1.1rem !important;
+                padding: 0.875rem 1.75rem !important;
+                min-height: 48px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn-group .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            /* Cards - mobile optimized */
+            .card {
+                margin-bottom: 1.5rem;
+                border-radius: 12px !important;
+            }
+            
+            .card-body {
+                padding: 1.25rem !important;
+            }
+            
+            .card-header {
+                padding: 1rem !important;
+                font-size: 1.1rem !important;
+            }
+            
+            /* Images - responsive and crystal clear */
+            img {
+                max-width: 100% !important;
+                height: auto !important;
+                border-radius: 10px !important;
+                display: block !important;
+            }
+            
+            picture img,
+            .img-fluid {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: auto !important;
+            }
+            
+            /* Image containers */
+            .text-center.p-4,
+            [class*="col"] .text-center {
+                padding: 1rem !important;
+            }
+            
+            /* Charts and visualizations - mobile friendly */
+            .chart-container {
+                height: 180px !important;
+                width: 100% !important;
+                max-width: 280px !important;
+                margin: 0 auto !important;
+            }
+            
+            .chart-container canvas {
+                max-height: 180px !important;
+                max-width: 100% !important;
+            }
+            
+            .level-card {
+                min-height: auto !important;
+                margin-bottom: 1rem;
+            }
+            
+            /* Tables - scrollable on mobile */
+            .table-responsive {
+                -webkit-overflow-scrolling: touch;
+                border-radius: 8px;
+            }
+            
+            .table {
+                font-size: 0.875rem !important;
+                min-width: 600px; /* Force horizontal scroll if needed */
+            }
+            
+            .table th,
+            .table td {
+                padding: 0.75rem 0.5rem !important;
+                white-space: nowrap;
+            }
+            
+            /* Forms - mobile optimized */
+            .form-control,
+            .form-select {
+                font-size: 16px !important; /* Prevents zoom on iOS */
+                padding: 0.75rem !important;
+                border-radius: 8px !important;
+                min-height: 44px;
+            }
+            
+            .form-label {
+                font-size: 1rem !important;
+                margin-bottom: 0.5rem !important;
+                font-weight: 600 !important;
+            }
+            
+            textarea.form-control {
+                min-height: 120px;
+                font-size: 16px !important;
+            }
+            
+            /* Badges and labels */
+            .badge {
+                font-size: 0.875rem !important;
+                padding: 0.5rem 0.75rem !important;
+            }
+            
+            .sentiment-badge {
+                font-size: 1rem !important;
+                padding: 0.5rem 1rem !important;
+            }
+            
+            /* Navigation - mobile menu */
+            .navbar-brand {
+                font-size: 1.1rem !important;
+            }
+            
+            .navbar-nav {
+                margin-top: 1rem;
+            }
+            
+            .navbar-nav .nav-link {
+                padding: 0.75rem 0 !important;
+                font-size: 1rem !important;
+            }
+            
+            /* Footer */
+            footer {
+                padding: 1.5rem 0 !important;
+                font-size: 0.9rem !important;
+            }
+            
+            /* Spacing adjustments */
+            .mb-5 {
+                margin-bottom: 2rem !important;
+            }
+            
+            .mt-5 {
+                margin-top: 2rem !important;
+            }
+            
+            .py-5 {
+                padding-top: 2rem !important;
+                padding-bottom: 2rem !important;
+            }
+            
+            /* Row and column adjustments */
+            .row {
+                margin-left: -0.5rem;
+                margin-right: -0.5rem;
+            }
+            
+            [class*="col-"] {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            /* Alerts */
+            .alert {
+                font-size: 0.95rem !important;
+                padding: 1rem !important;
+                border-radius: 8px !important;
+            }
+            
+            /* List groups */
+            .list-group-item {
+                padding: 0.875rem 1rem !important;
+                font-size: 0.95rem !important;
+            }
+            
+            /* Social buttons */
+            .social-btn {
+                padding: 0.75rem 1.25rem !important;
+                font-size: 0.95rem !important;
+                min-height: 44px;
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            /* Token heatmap - mobile friendly */
+            .token-heatmap {
+                font-size: 0.875rem !important;
+                padding: 0.75rem !important;
+                line-height: 1.8 !important;
+            }
+            
+            .token {
+                font-size: 0.8rem !important;
+                padding: 3px 6px !important;
+                margin: 2px !important;
+            }
+            
+            /* Flow diagram image */
+            #flowDiagram img,
+            .flow-diagram img {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: auto !important;
+            }
+        }
+        
+        /* Tablet styles - medium screens */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .hero-image img {
+                max-width: 100% !important;
+            }
+            
+            .chart-container {
+                max-width: 300px !important;
+            }
+            
+            h1 {
+                font-size: 2.25rem !important;
+            }
+            
+            h2 {
+                font-size: 1.75rem !important;
+            }
+        }
+        
+        /* Large screens - maintain clarity */
+        @media (min-width: 992px) {
+            body {
+                font-size: 16px;
+            }
+            
+            .hero-image img {
+                max-width: 1200px !important;
+            }
+        }
+        
+        /* High DPI displays - extra sharp */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            img {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+        }
+        
+        /* Landscape mobile orientation */
+        @media (max-width: 767.98px) and (orientation: landscape) {
+            .hero-section {
+                padding: 1.5rem 0 !important;
+            }
+            
+            .hero-image {
+                min-height: 200px !important;
+            }
+        }
+        
+        /* Print styles - ensure clarity */
+        @media print {
+            body {
+                font-size: 12pt;
+                line-height: 1.5;
+            }
+            
+            img {
+                max-width: 100% !important;
+                page-break-inside: avoid;
+            }
+        }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
